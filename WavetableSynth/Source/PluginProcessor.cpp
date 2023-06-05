@@ -22,7 +22,6 @@ WavetableSynthAudioProcessor::WavetableSynthAudioProcessor()
                        )
 #endif
 {
-//以下が追加したコードになります。
  addParameter(gain = new juce::AudioParameterFloat("gain", //parameterID※
      "Gain", // parameter name
      0.0f,   // minimum value
@@ -31,7 +30,7 @@ WavetableSynthAudioProcessor::WavetableSynthAudioProcessor()
 }
 
 WavetableSynthAudioProcessor::~WavetableSynthAudioProcessor()
-{
+{ // ~(チルダ)はデストラクタの意
 }
 
 //==============================================================================
@@ -99,6 +98,7 @@ void WavetableSynthAudioProcessor::changeProgramName (int index, const juce::Str
 //==============================================================================
 void WavetableSynthAudioProcessor::prepareToPlay (double sampleRate, int)
 {
+    this->sampleRate = sampleRate;
     synth.prepareToPlay(sampleRate);
 }
 
@@ -140,7 +140,7 @@ void WavetableSynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffe
         buffer.clear(i, 0, buffer.getNumSamples());
 
     synth.processBlock(buffer, midiMessages);
-    buffer.applyGain (*gain);
+    buffer.applyGain(*gain);
 }
 
 //==============================================================================

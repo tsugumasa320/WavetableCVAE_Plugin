@@ -14,27 +14,41 @@ std::vector<float> WavetableSynth::generateSineWaveTable()
     return sineWaveTable;
 }
 
-void WavetableSynth::initializeOscillators()
+void WavetableSynth::initializeOscillators(std::vector<float> waveTable)
 {
+    DBG("initOSC");
+    constexpr auto OSCILLATOR_COUNT = 128;
     oscillators.clear();
-    constexpr auto OSCILLATOR_COUNT = 600;
-    const auto sineWaveTable = generateSineWaveTable();
 
     for (auto i = 0; i < OSCILLATOR_COUNT; ++i)
     {
-        oscillators.emplace_back(sineWaveTable, sampleRate);
+        oscillators.emplace_back(waveTable, sampleRate);
     }
 }
 
+// TODO:あとで整理する
 void WavetableSynth::prepareToPlay(double sampleRate)
 {
-    this->sampleRate = sampleRate;
+    DBG("set sine wavetable");
+    DBG("samplerate" << sampleRate);
 
-    initializeOscillators();
+    this->sampleRate = sampleRate;
+    auto waveTable = generateSineWaveTable();
+    initializeOscillators(waveTable);
+}
+
+void WavetableSynth::prepareToPlay(double sampleRate, std::vector<float> waveTable)
+{
+    DBG("set new wavetable");
+    DBG("samplerate" << sampleRate);
+    this->sampleRate = sampleRate;
+    // auto waveTable = generateSineWaveTable();
+    initializeOscillators(waveTable);
 }
 
 void WavetableSynth::processBlock(juce::AudioBuffer<float>& buffer, 
                                   juce::MidiBuffer& midiMessages)
+// PluginProcessorからのエントリーポイント
 {
     auto currentSample = 0;
 
@@ -61,6 +75,7 @@ float WavetableSynth::midiNoteNumberToFrequency(const int midiNoteNumber)
 
 void WavetableSynth::handleMidiEvent(const juce::MidiMessage& midiMessage)
 {
+    DBG("handleMidiEvent");
     if (midiMessage.isNoteOn())
     {
         const auto oscillatorId = midiMessage.getNoteNumber();
@@ -84,6 +99,8 @@ void WavetableSynth::handleMidiEvent(const juce::MidiMessage& midiMessage)
 void WavetableSynth::render(juce::AudioBuffer<float>& buffer, int beginSample, int endSample)
 {
     auto* firstChannel = buffer.getWritePointer(0);
+    
+    
     for (auto& oscillator : oscillators)
     {
         if (oscillator.isPlaying())

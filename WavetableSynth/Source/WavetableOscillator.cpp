@@ -5,7 +5,9 @@
 WavetableOscillator::WavetableOscillator(std::vector<float> waveTable, double sampleRate)
 : waveTable{ std::move(waveTable) },
     sampleRate{ sampleRate }
-{}
+{
+    // std::cout << "WavetableOscillator created with sampleRate: " << sampleRate << "\n";
+}
 
 float WavetableOscillator::getSample()
 {

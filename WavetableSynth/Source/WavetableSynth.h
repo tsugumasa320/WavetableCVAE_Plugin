@@ -7,8 +7,10 @@ class WavetableSynth
 {
 public:
     void prepareToPlay(double sampleRate);
+    void prepareToPlay(double sampleRate, std::vector<float> waveTable);
     void processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages);
-
+    void initializeOscillators(std::vector<float> waveTable);
+    
 private:
     static std::vector<float> generateSineWaveTable();
     static float midiNoteNumberToFrequency(int midiNoteNumber);
@@ -18,5 +20,6 @@ private:
 
     double sampleRate;
     std::vector<WavetableOscillator> oscillators;
+    int count;
 };
 

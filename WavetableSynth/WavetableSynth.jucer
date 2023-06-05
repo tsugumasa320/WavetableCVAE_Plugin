@@ -20,6 +20,9 @@
           file="Source/WavetableSynth.cpp"/>
     <FILE id="Lh8Po2" name="WavetableSynth.h" compile="0" resource="0"
           file="Source/WavetableSynth.h"/>
+    <FILE id="Fzq2dS" name="MainComponent.cpp" compile="1" resource="0"
+          file="../../DrawAudioWave01/Source/MainComponent.cpp"/>
+    <FILE id="OnWxFQ" name="MainComponent.h" compile="0" resource="0" file="../../DrawAudioWave01/Source/MainComponent.h"/>
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>
   <EXPORTFORMATS>

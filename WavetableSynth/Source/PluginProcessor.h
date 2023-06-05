@@ -19,6 +19,7 @@ class WavetableSynthAudioProcessor  : public juce::AudioProcessor
 public:
     float noteOnVel;
     juce::AudioParameterFloat* gain;
+    double sampleRate;
     //==============================================================================
     WavetableSynthAudioProcessor();
     ~WavetableSynthAudioProcessor() override;

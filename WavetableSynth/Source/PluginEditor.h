@@ -19,10 +19,15 @@ class WavetableSynthAudioProcessorEditor  : public juce::AudioProcessorEditor,pr
 public:
     WavetableSynthAudioProcessorEditor (WavetableSynthAudioProcessor&);
     ~WavetableSynthAudioProcessorEditor() override;
-
+    //==============================================================================
+    void prepareToPlay(int samplesPerBlockExpected, double sampleRate);
+    void getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill);
+    void releaseResources();
+    void changeListenerCallback(juce::ChangeBroadcaster* source);
     //==============================================================================
     void paint (juce::Graphics&) override;
     void resized() override;
+    std::vector<float> samples;
     
 
 private:
@@ -39,6 +44,36 @@ private:
     
     juce::Slider midiVolume; //この一行を追加します。
 
+    enum TransportState
+    {
+        Stopped,
+        Starting,
+        Playing,
+        Stopping
+    };
 
+    juce::TextButton openButton;
+
+    std::unique_ptr<juce::FileChooser> chooser;
+    juce::AudioFormatManager formatManager;
+    std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
+    juce::AudioTransportSource transportSource;
+    TransportState state;
+
+    juce::AudioThumbnailCache thumbnailCache;
+    juce::AudioThumbnail thumbnail;
+
+    void openButtonClicked();
+    void thumbnailChanged();
+
+    void paintIfNoFileLoaded(juce::Graphics& g, const juce::Rectangle<int>& thumbnailBounds);
+    void paintIfFileLoaded(juce::Graphics& g, const juce::Rectangle<int>& thumbnailBounds);
+
+    WavetableSynth synth;
+    int bufferSize;
+    juce::AudioBuffer<float> buffer;
+    std::unique_ptr<juce::AudioFormatReader> reader;
+
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (WavetableSynthAudioProcessorEditor)
 };

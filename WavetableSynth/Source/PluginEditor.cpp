@@ -8,10 +8,12 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
+#include <JuceHeader.h>
+
 
 //==============================================================================
 WavetableSynthAudioProcessorEditor::WavetableSynthAudioProcessorEditor (WavetableSynthAudioProcessor& p)
-    : AudioProcessorEditor (&p), audioProcessor (p)
+    : AudioProcessorEditor (&p), audioProcessor (p), state(Stopped), thumbnailCache(5), thumbnail(512, formatManager, thumbnailCache)
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
@@ -51,6 +53,12 @@ WavetableSynthAudioProcessorEditor::WavetableSynthAudioProcessorEditor (Wavetabl
     //スライダーオブジェクトを可視化します。
     addAndMakeVisible (&midiVolume);
     
+    // ---
+    addAndMakeVisible(&openButton);
+    openButton.setButtonText("Open...");
+    openButton.onClick = [this] { openButtonClicked(); };
+    formatManager.registerBasicFormats();
+    
 }
 
 WavetableSynthAudioProcessorEditor::~WavetableSynthAudioProcessorEditor()
@@ -67,7 +75,14 @@ void WavetableSynthAudioProcessorEditor::paint (juce::Graphics& g)
     g.setFont (15.0f);
     // g.drawFittedText ("Hello WavetableCVAE Synth!", getLocalBounds(), juce::Justification::centred, 1);
     // 表示テキスト,ウィンドウのX,ウィンドウのY,幅,高さ,ウィンドウに対する位置,maximumNumberOfLines,inimumHorizontalScaleデフォルト)
-        g.drawFittedText ("WavetableCVAE", 0, 0, getWidth(), 30, juce::Justification::centred, 1);
+    g.drawFittedText ("WavetableCVAE", 0, 0, getWidth(), 30, juce::Justification::centred, 1);
+    
+    juce::Rectangle<int> thumbnailBounds(getWidth()/3, getHeight()/3, getWidth()/2, getHeight()/2);
+
+    if (thumbnail.getNumChannels() == 0)
+        paintIfNoFileLoaded(g, thumbnailBounds);
+    else
+        paintIfFileLoaded(g, thumbnailBounds);
 }
 
 void WavetableSynthAudioProcessorEditor::resized()
@@ -77,6 +92,8 @@ void WavetableSynthAudioProcessorEditor::resized()
     
     //ウィンドウリサイズの際にスライダーの画面位置と幅、高さを設定します。(x, y, width, height)
     midiVolume.setBounds (40, 30, 20, getHeight() - 60);
+    
+    openButton.setBounds(10, 10, getWidth() - 20, 20);
 }
 
 void WavetableSynthAudioProcessorEditor::sliderValueChanged (juce::Slider* slider)
@@ -85,3 +102,83 @@ void WavetableSynthAudioProcessorEditor::sliderValueChanged (juce::Slider* slide
     audioProcessor.noteOnVel = midiVolume.getValue();
 //スライダー「midiVolume」の値をnoteOnVelの値に代入します。
 }
+
+//==============================================================================
+// audio loader
+
+void WavetableSynthAudioProcessorEditor::thumbnailChanged()
+{
+    repaint();
+}
+
+void WavetableSynthAudioProcessorEditor::releaseResources()
+{
+    juce::FileLogger::outputDebugString("\nrelease\n");
+    transportSource.releaseResources();
+}
+
+void WavetableSynthAudioProcessorEditor::openButtonClicked()
+{
+    chooser = std::make_unique<juce::FileChooser> ("Select a Wave file to play...",
+                                                   juce::File{},
+                                                   "*.wav");
+    
+    auto chooserFlags = juce::FileBrowserComponent::openMode
+                      | juce::FileBrowserComponent::canSelectFiles;
+
+    chooser->launchAsync (chooserFlags, [this] (const juce::FileChooser& fc)
+                          {
+        auto file = fc.getResult();
+        
+        // reader の解放
+        reader.reset();
+        reader.reset(formatManager.createReaderFor(file));
+
+        DBG("reader != nullptr");
+        if (reader != nullptr)
+        {
+            std::unique_ptr<juce::AudioFormatReaderSource> newSource(new juce::AudioFormatReaderSource(reader.get(), false));
+            transportSource.setSource(newSource.get(), 0, nullptr, reader->sampleRate);
+            thumbnail.setSource(new juce::FileInputSource(file));
+            readerSource.reset(newSource.release());
+            
+            DBG("AudioBuffer2buffer");
+            // バッファサイズとバッファを初期化します
+            bufferSize = 600;
+            buffer.setSize(reader->numChannels, bufferSize);
+            // AudioFormatReaderSourceからデータを読み込む
+            juce::AudioSourceChannelInfo info(&buffer, 0, bufferSize);
+            readerSource->getNextAudioBlock(info);
+            // bufferをstd::vector<float>に変換します
+            DBG("buffer2vector");
+            std::vector<float> samples;
+            auto* channelData = buffer.getReadPointer(0); // 1chのみを読み込むため、0を指定します
+            samples.assign(channelData, channelData + buffer.getNumSamples());
+            synth.prepareToPlay(audioProcessor.getSampleRate(), samples);
+        }
+    });
+}
+
+
+void WavetableSynthAudioProcessorEditor::paintIfNoFileLoaded(juce::Graphics& g, const juce::Rectangle<int>& thumbnailBounds)
+{
+    g.setColour(juce::Colours::darkgrey);
+    g.fillRect(thumbnailBounds);
+    g.setColour(juce::Colours::white);
+    g.drawFittedText("No File Loaded", thumbnailBounds, juce::Justification::centred, 1);
+}
+
+void WavetableSynthAudioProcessorEditor::paintIfFileLoaded(juce::Graphics& g, const juce::Rectangle<int>& thumbnailBounds)
+{
+    g.setColour(juce::Colours::white);
+    g.fillRect(thumbnailBounds);
+
+    g.setColour(juce::Colours::red);
+
+    thumbnail.drawChannels(g,
+        thumbnailBounds,
+        0.0,
+        thumbnail.getTotalLength(),
+        1.0f);
+}
+//==============================================================================

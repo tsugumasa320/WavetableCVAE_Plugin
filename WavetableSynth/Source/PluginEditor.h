@@ -10,6 +10,7 @@
 
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
+#include "OnnxModel.h"
 
 //==============================================================================
 /**
@@ -29,6 +30,10 @@ public:
     void paint (juce::Graphics&) override;
     void resized() override;
     std::vector<float> samples;
+    //==============================================================================
+    float bright;
+    float warm;
+    float rich;
     
 
 private:
@@ -61,9 +66,12 @@ private:
     juce::AudioTransportSource transportSource;
     TransportState state;
 
-    juce::AudioThumbnailCache thumbnailCache;
-    juce::AudioThumbnail thumbnail;
+    juce::AudioThumbnailCache inputThumbnailCache;
+    juce::AudioThumbnail inputThumbnail;
 
+    juce::AudioThumbnailCache outputThumbnailCache;
+    juce::AudioThumbnail outputThumbnail;
+    
     void openButtonClicked();
     void thumbnailChanged();
 
@@ -74,5 +82,9 @@ private:
     int bufferSize;
     juce::AudioBuffer<float> buffer;
     std::unique_ptr<juce::AudioFormatReader> reader;
+    
+    OnnxModel onnxModel;
+    void applyModel(AudioBuffer<float>& buffer);
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (WavetableSynthAudioProcessorEditor)
 };

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="NEXutS" name="WavetableSynth" projectType="audioplug" useAppConfig="0"
-              addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
-              pluginCharacteristicsValue="pluginIsSynth,pluginProducesMidiOut,pluginWantsMidiIn">
+              addUsingNamespaceToJuceHeader="1" displaySplashScreen="1" jucerFormatVersion="1"
+              pluginCharacteristicsValue="pluginIsSynth,pluginProducesMidiOut,pluginWantsMidiIn"
+              maxBinaryFileSize="20971520">
   <MAINGROUP id="GksYSh" name="WavetableSynth">
     <GROUP id="{2AAF0CFF-622B-FE19-D5CD-F399C885286D}" name="Source"/>
     <FILE id="juX4fx" name="PluginEditor.cpp" compile="1" resource="0"
@@ -20,16 +21,20 @@
           file="Source/WavetableSynth.cpp"/>
     <FILE id="Lh8Po2" name="WavetableSynth.h" compile="0" resource="0"
           file="Source/WavetableSynth.h"/>
-    <FILE id="Fzq2dS" name="MainComponent.cpp" compile="1" resource="0"
-          file="../../DrawAudioWave01/Source/MainComponent.cpp"/>
-    <FILE id="OnWxFQ" name="MainComponent.h" compile="0" resource="0" file="../../DrawAudioWave01/Source/MainComponent.h"/>
+    <FILE id="IoKR9R" name="OnnxModel.cpp" compile="1" resource="0" file="Source/OnnxModel.cpp"/>
+    <FILE id="iavEoL" name="OnnxModel.h" compile="0" resource="0" file="Source/OnnxModel.h"/>
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>
   <EXPORTFORMATS>
-    <XCODE_MAC targetFolder="Builds/MacOSX">
+    <XCODE_MAC targetFolder="Builds/MacOSX" externalLibraries="onnxruntime"
+               customXcodeResourceFolders="./model&#10;./onnxruntime/onnxruntime-osx-universal2-1.14.1/lib">
       <CONFIGURATIONS>
-        <CONFIGURATION isDebug="1" name="Debug" targetName="WavetableSynth"/>
-        <CONFIGURATION isDebug="0" name="Release" targetName="WavetableSynth"/>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="WavetableSynth" headerPath="../../onnxruntime/onnxruntime-osx-universal2-1.14.1/include"
+                       libraryPath="../../onnxruntime/onnxruntime-osx-universal2-1.14.1/lib"
+                       customXcodeFlags="LD_RUNPATH_SEARCH_PATHS=@loader_path/../Resources/lib"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="WavetableSynth" headerPath="/Users/tsugumasayutani/Documents/onnxruntime/onnxruntime-osx-universal2-1.14.1/include"
+                       libraryPath="/Users/tsugumasayutani/Documents/onnxruntime/onnxruntime-osx-universal2-1.14.1/lib"
+                       customXcodeFlags="LD_RUNPATH_SEARCH_PATHS=@loader_path/../Resources/lib"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_audio_basics" path="../../../JUCE/modules"/>

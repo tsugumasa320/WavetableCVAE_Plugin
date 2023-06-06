@@ -75,17 +75,18 @@ float WavetableSynth::midiNoteNumberToFrequency(const int midiNoteNumber)
 
 void WavetableSynth::handleMidiEvent(const juce::MidiMessage& midiMessage)
 {
-    DBG("handleMidiEvent");
     if (midiMessage.isNoteOn())
     {
         const auto oscillatorId = midiMessage.getNoteNumber();
         const auto frequency = midiNoteNumberToFrequency(oscillatorId);
         oscillators[oscillatorId].setFrequency(frequency);
+        DBG("note_num: " << oscillatorId << " freq: " << frequency);
     }
     else if (midiMessage.isNoteOff())
     {
         const auto oscillatorId = midiMessage.getNoteNumber();
         oscillators[oscillatorId].stop();
+        // DBG(oscillatorId << " is noteoff");
     }
     else if (midiMessage.isAllNotesOff())
     {

@@ -10,24 +10,26 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-WavetableSynthAudioProcessor::WavetableSynthAudioProcessor()
+WavetableSynthAudioProcessor::WavetableSynthAudioProcessor() // コンストラクタ定義
 #ifndef JucePlugin_PreferredChannelConfigurations
-     : AudioProcessor (BusesProperties()
-                     #if ! JucePlugin_IsMidiEffect
-                      #if ! JucePlugin_IsSynth
-                       .withInput  ("Input",  juce::AudioChannelSet::stereo(), true)
-                      #endif
-                       .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
-                     #endif
-                       )
+    : AudioProcessor (BusesProperties() // AudioProcessorのコンストラクタ呼出
+    #if ! JucePlugin_IsMidiEffect // もし，MIDIエフェクトではなく
+        #if ! JucePlugin_IsSynth // シンセでもない
+            .withInput  ("Input",  juce::AudioChannelSet::stereo(), true)
+        #endif // シンセだったら
+            .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
+    #endif
+    )
 #endif
+
 {
- addParameter(gain = new juce::AudioParameterFloat("gain", //parameterID※
-     "Gain", // parameter name
-     0.0f,   // minimum value
-     1.0f,   // maximum value
-     0.5f)); // default value
+    addParameter(gain = new juce::AudioParameterFloat("gain", //parameterID※
+         "Gain", // parameter name
+         0.0f,   // minimum value
+         1.0f,   // maximum value
+         0.5f)); // default value    
 }
+
 
 WavetableSynthAudioProcessor::~WavetableSynthAudioProcessor()
 { // ~(チルダ)はデストラクタの意
@@ -96,7 +98,7 @@ void WavetableSynthAudioProcessor::changeProgramName (int index, const juce::Str
 }
 
 //==============================================================================
-void WavetableSynthAudioProcessor::prepareToPlay (double sampleRate, int)
+void WavetableSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
     this->sampleRate = sampleRate;
     synth.prepareToPlay(sampleRate);
@@ -174,3 +176,4 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new WavetableSynthAudioProcessor();
 }
+

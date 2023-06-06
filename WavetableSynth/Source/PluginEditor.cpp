@@ -13,52 +13,67 @@
 
 //==============================================================================
 WavetableSynthAudioProcessorEditor::WavetableSynthAudioProcessorEditor (WavetableSynthAudioProcessor& p, WavetableSynth& s)
-    : AudioProcessorEditor (&p), audioProcessor (p), state(Stopped), thumbnailCache(5), thumbnail(512, formatManager, thumbnailCache), synth(s)
+    : AudioProcessorEditor (&p),audioProcessor (p), state(Stopped),
+    inputThumbnailCache(1), inputThumbnail(600, formatManager, inputThumbnailCache),
+    outputThumbnailCache(1), outputThumbnail(600, formatManager, outputThumbnailCache),
+    synth(s)
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
+    
     setSize (800, 600);
         
     brightSlider.setSliderStyle(juce::Slider::LinearHorizontal); // スライダーの形を指定します
     brightSlider.setRange(0.0, 1.0); // スライダーの値の範囲を指定します
-    brightSlider.setBounds(100, 100, 250, 20); // スライダーの x座標 y座標 横幅 縦幅 を指定します
-    addAndMakeVisible(&brightSlider); // スライダーをGUI上に描画できるようにします
+    brightSlider.setBounds(150, 100, 250, 20); // スライダーの x座標 y座標 横幅 縦幅 を指定します
     brightLabel.setText("bright", juce::dontSendNotification); // "volume"というテキストの表記を用意します
     brightLabel.attachToComponent(&brightSlider, true); // 表記をvolumeSliderにくっつけます
     
     warmSlider.setSliderStyle(juce::Slider::LinearHorizontal); // スライダーの形を指定します
     warmSlider.setRange(0.0, 1.0); // スライダーの値の範囲を指定します
-    warmSlider.setBounds(100, 200, 250, 20); // スライダーの x座標 y座標 横幅 縦幅 を指定します
-    addAndMakeVisible(&warmSlider); // スライダーをGUI上に描画できるようにします
+    warmSlider.setBounds(150, 150, 250, 20); // スライダーの x座標 y座標 横幅 縦幅 を指定します
     warmLabel.setText("warm", juce::dontSendNotification); // "volume"というテキストの表記を用意します
     warmLabel.attachToComponent(&warmSlider, true); // 表記をvolumeSliderにくっつけます
     
     richSlider.setSliderStyle(juce::Slider::LinearHorizontal); // スライダーの形を指定します
     richSlider.setRange(0.0, 1.0); // スライダーの値の範囲を指定します
-    richSlider.setBounds(100, 300, 250, 20); // スライダーの x座標 y座標 横幅 縦幅 を指定します
-    addAndMakeVisible(&richSlider); // スライダーをGUI上に描画できるようにします
+    richSlider.setBounds(150, 200, 250, 20); // スライダーの x座標 y座標 横幅 縦幅 を指定します
     richLabel.setText("rich", juce::dontSendNotification); // "volume"というテキストの表記を用意します
     richLabel.attachToComponent(&richSlider, true); // 表記をvolumeSliderにくっつけます
         
-    // add the listener to the slider
-    midiVolume.addListener (this);
-
-    //スライダーオブジェクトの初期設定を行いました。
+    //スライダーオブジェクトの初期設定
     midiVolume.setSliderStyle (juce::Slider::LinearBarVertical);
     midiVolume.setRange (0.0, 1.0);
     midiVolume.setTextBoxStyle (juce::Slider::NoTextBox, false, 90, 0);
     midiVolume.setPopupDisplayEnabled (true, false, this);
     midiVolume.setTextValueSuffix (" Volume");
     midiVolume.setValue(1.0);
-    //スライダーオブジェクトを可視化します。
+    
+    // add the listener to the slider
+    brightSlider.addListener (this);
+    warmSlider.addListener (this);
+    richSlider.addListener (this);
+    midiVolume.addListener (this);
+    
+    //スライダーオブジェクトを可視化
+    addAndMakeVisible(&brightSlider);
+    addAndMakeVisible(&warmSlider);
+    addAndMakeVisible(&richSlider);
     addAndMakeVisible (&midiVolume);
     
-    // ---
+    // openボタンの実装
     addAndMakeVisible(&openButton);
     openButton.setButtonText("Open...");
     openButton.onClick = [this] { openButtonClicked(); };
+    // 音声形式の定義
     formatManager.registerBasicFormats();
     
+    //==============================================================================
+    
+    auto bundle = juce::File::getSpecialLocation (juce::File::currentExecutableFile).getParentDirectory().getParentDirectory();
+    /** UPDATE THESE PARAMS FOR DIFFERENT MODELS!! **/
+    auto model_file = bundle.getChildFile ("Resources/model/wavetable_cvae.onnx");
+    onnxModel.setup(model_file);
 }
 
 WavetableSynthAudioProcessorEditor::~WavetableSynthAudioProcessorEditor()
@@ -77,12 +92,21 @@ void WavetableSynthAudioProcessorEditor::paint (juce::Graphics& g)
     // 表示テキスト,ウィンドウのX,ウィンドウのY,幅,高さ,ウィンドウに対する位置,maximumNumberOfLines,inimumHorizontalScaleデフォルト)
     g.drawFittedText ("WavetableCVAE", 0, 0, getWidth(), 30, juce::Justification::centred, 1);
     
-    juce::Rectangle<int> thumbnailBounds(getWidth()/3, getHeight()/3, getWidth()/2, getHeight()/2);
+    // input thumnail
+    juce::Rectangle<int> inputThumbnailBounds(getWidth()/2+30, 50, 350, 250); // initial x, initial y, width, height
 
-    if (thumbnail.getNumChannels() == 0)
-        paintIfNoFileLoaded(g, thumbnailBounds);
+    if (inputThumbnail.getNumChannels() == 0)
+        paintIfNoFileLoaded(g, inputThumbnailBounds);
     else
-        paintIfFileLoaded(g, thumbnailBounds);
+        paintIfFileLoaded(g, inputThumbnailBounds);
+    
+    // output thumnail
+    juce::Rectangle<int> outputThumbnailBounds(getWidth()/2+30, getHeight()/2+10, 350, 250);
+
+    if (outputThumbnail.getNumChannels() == 0)
+        paintIfNoFileLoaded(g, outputThumbnailBounds);
+    else
+        paintIfFileLoaded(g, outputThumbnailBounds);
 }
 
 void WavetableSynthAudioProcessorEditor::resized()
@@ -91,7 +115,7 @@ void WavetableSynthAudioProcessorEditor::resized()
     // subcomponents in your editor..
     
     //ウィンドウリサイズの際にスライダーの画面位置と幅、高さを設定します。(x, y, width, height)
-    midiVolume.setBounds (40, 30, 20, getHeight() - 60);
+    midiVolume.setBounds (40, 50, 20, getHeight() - 60);
     openButton.setBounds(10, 10, getWidth() - 20, 20);
 }
 
@@ -99,6 +123,10 @@ void WavetableSynthAudioProcessorEditor::sliderValueChanged (juce::Slider* slide
 {
 //オーバーライドしているsliderValueChanged関数に独自の機能を追記していきます。
     audioProcessor.noteOnVel = midiVolume.getValue();
+    bright = brightSlider.getValue();
+    warm = warmSlider.getValue();
+    rich = richSlider.getValue();
+    DBG("bright: " << bright << ", warm: " << warm << ", rich: " << rich);
 //スライダー「midiVolume」の値をnoteOnVelの値に代入します。
 }
 
@@ -128,7 +156,7 @@ void WavetableSynthAudioProcessorEditor::openButtonClicked()
     chooser->launchAsync (chooserFlags, [this] (const juce::FileChooser& fc)
                           {
         auto file = fc.getResult();
-        
+        // TODO:親ファイルのjsonを読み込んで，labelを設定する
         // reader の解放
         reader.reset();
         reader.reset(formatManager.createReaderFor(file));
@@ -138,7 +166,7 @@ void WavetableSynthAudioProcessorEditor::openButtonClicked()
         {
             std::unique_ptr<juce::AudioFormatReaderSource> newSource(new juce::AudioFormatReaderSource(reader.get(), false));
             transportSource.setSource(newSource.get(), 0, nullptr, reader->sampleRate);
-            thumbnail.setSource(new juce::FileInputSource(file));
+            inputThumbnail.setSource(new juce::FileInputSource(file));
             readerSource.reset(newSource.release());
             
             DBG("AudioBuffer2buffer");
@@ -148,6 +176,10 @@ void WavetableSynthAudioProcessorEditor::openButtonClicked()
             // AudioFormatReaderSourceからデータを読み込む
             juce::AudioSourceChannelInfo info(&buffer, 0, bufferSize);
             readerSource->getNextAudioBlock(info);
+            //labelの値を取得->Globalで設定済み
+            //AudioBufferをONNXに投げる
+            //返ってきた値をthumbnailに設定
+            //vectorに変換してsynth.prepareToPlayにも設定
             // bufferをstd::vector<float>に変換します
             DBG("buffer2vector");
             auto* channelData = buffer.getReadPointer(0); // 1chのみを読み込むため、0を指定します
@@ -157,6 +189,10 @@ void WavetableSynthAudioProcessorEditor::openButtonClicked()
     });
 }
 
+void WavetableSynthAudioProcessorEditor::applyModel(AudioBuffer<float>& buffer)
+{
+    onnxModel.process(buffer); // DLの処理
+}
 
 void WavetableSynthAudioProcessorEditor::paintIfNoFileLoaded(juce::Graphics& g, const juce::Rectangle<int>& thumbnailBounds)
 {
@@ -166,17 +202,24 @@ void WavetableSynthAudioProcessorEditor::paintIfNoFileLoaded(juce::Graphics& g, 
     g.drawFittedText("No File Loaded", thumbnailBounds, juce::Justification::centred, 1);
 }
 
-void WavetableSynthAudioProcessorEditor::paintIfFileLoaded(juce::Graphics& g, const juce::Rectangle<int>& thumbnailBounds)
+void WavetableSynthAudioProcessorEditor::paintIfFileLoaded
+ (juce::Graphics& g, const juce::Rectangle<int>& thumbnailBounds)
 {
     g.setColour(juce::Colours::white);
     g.fillRect(thumbnailBounds);
 
-    g.setColour(juce::Colours::red);
+    g.setColour(juce::Colours::blue);
 
-    thumbnail.drawChannels(g,
+    inputThumbnail.drawChannels(g,
         thumbnailBounds,
         0.0,
-        thumbnail.getTotalLength(),
+        inputThumbnail.getTotalLength(),
+        1.0f);
+    
+    outputThumbnail.drawChannels(g,
+        thumbnailBounds,
+        0.0,
+        outputThumbnail.getTotalLength(),
         1.0f);
 }
 //==============================================================================

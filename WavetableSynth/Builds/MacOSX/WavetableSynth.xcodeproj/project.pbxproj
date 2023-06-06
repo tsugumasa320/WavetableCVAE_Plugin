@@ -39,21 +39,23 @@
 		36260CB42DF16503017EE145 /* include_juce_audio_processors_lv2_libs.cpp */ = {isa = PBXBuildFile; fileRef = 136B57EAF0A414DE30FF72DD; };
 		3DECB3E9A93458F3B1CF0CD1 /* DiscRecording.framework */ = {isa = PBXBuildFile; fileRef = F47137AA56EDA161F20247B1; };
 		3FF13C591346952A85C2A5F8 /* CoreAudioKit.framework */ = {isa = PBXBuildFile; fileRef = 378277E8338F64F939831C2F; };
+		449BEBBBAE41117BC49C2863 /* model */ = {isa = PBXBuildFile; fileRef = 96B2D590A2C506519A303F0B; };
 		50C4902A407045313A343377 /* include_juce_gui_extra.mm */ = {isa = PBXBuildFile; fileRef = B6EEA2CA12850794F05F80B5; };
 		520B7C2DE63438F9470ACB8E /* WavetableOscillator.cpp */ = {isa = PBXBuildFile; fileRef = D8DE0D620048E48CB2E5B202; };
 		55871CE639AF9FF72E271C10 /* include_juce_audio_plugin_client_AU_2.mm */ = {isa = PBXBuildFile; fileRef = AF0A33EABD82621C0E5FB3F3; };
 		55AFC1FFAA18292E0FDA803A /* Shared Code */ = {isa = PBXBuildFile; fileRef = 86E62923C4128FE9FFF69EB0; };
 		59521E67D044F1FE0029FC61 /* Cocoa.framework */ = {isa = PBXBuildFile; fileRef = 599E1364F985D9009C34ADFE; };
+		5A0504CAA84E7BEA8723702E /* OnnxModel.cpp */ = {isa = PBXBuildFile; fileRef = 275F5D9809E4F6663B220496; };
 		5AF70D80AAF15755DB0CAF03 /* include_juce_audio_basics.mm */ = {isa = PBXBuildFile; fileRef = 6BDCF4F8135FEDB1C3554259; };
 		5BCD6132C23E8DBB1CCC665E /* WavetableSynth.cpp */ = {isa = PBXBuildFile; fileRef = D7BFEB4A87AF0D2DED12A4EC; };
 		5C4632994BDDDD580B6C9070 /* include_juce_audio_plugin_client_AU_1.mm */ = {isa = PBXBuildFile; fileRef = CFE72D9C5ED2DBB481685C68; };
 		5D1DA968E10B50CCBC5759A1 /* include_juce_audio_plugin_client_Standalone.cpp */ = {isa = PBXBuildFile; fileRef = 0E2694E3A8512FBF37A3BDBD; };
 		644E73902E6A5B617C41D1E8 /* include_juce_audio_plugin_client_utils.cpp */ = {isa = PBXBuildFile; fileRef = 03123AF11D5579EFE6DC8C82; };
 		65127839A2FB52B59D5DDA38 /* include_juce_audio_formats.mm */ = {isa = PBXBuildFile; fileRef = 7949629772B88CE1B0FE0567; };
-		7AAA39E26C1AE7332E848162 /* MainComponent.cpp */ = {isa = PBXBuildFile; fileRef = 99D084CDC2C41CB672D1CF07; };
 		7C416161754FB2CEF33FB4DD /* include_juce_gui_basics.mm */ = {isa = PBXBuildFile; fileRef = FA2FF587396674F89ABC4323; };
 		992637C4272A3F69B1A32A64 /* RecentFilesMenuTemplate.nib */ = {isa = PBXBuildFile; fileRef = F29565A7A9E8E5B5150479B4; };
 		9CA1631189DE04A62DABD1F8 /* Standalone Plugin */ = {isa = PBXBuildFile; fileRef = 61B4BF4EDACEC8910F1FF8E9; };
+		A8C0D686C4B9EC2E9415C373 /* lib */ = {isa = PBXBuildFile; fileRef = 3280507A1F46C5C186C2ED41; };
 		AED7E18A80DBD85CA9CB9F86 /* include_juce_audio_plugin_client_ARA.cpp */ = {isa = PBXBuildFile; fileRef = B57DE0855B2949437474BC68; };
 		B9EE1F43AE3C08C3D9C09D10 /* IOKit.framework */ = {isa = PBXBuildFile; fileRef = 149BA8F5BBCEF46905912337; };
 		C1CFC5627F8FF3B6D93DF493 /* include_juce_graphics.mm */ = {isa = PBXBuildFile; fileRef = 618021D9DE61A68B9ED0CC91; };
@@ -77,16 +79,18 @@
 		136B57EAF0A414DE30FF72DD /* include_juce_audio_processors_lv2_libs.cpp */ /* include_juce_audio_processors_lv2_libs.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = include_juce_audio_processors_lv2_libs.cpp; path = ../../JuceLibraryCode/include_juce_audio_processors_lv2_libs.cpp; sourceTree = SOURCE_ROOT; };
 		149BA8F5BBCEF46905912337 /* IOKit.framework */ /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		152DAE605420E7AC85D52AC4 /* Info-Standalone_Plugin.plist */ /* Info-Standalone_Plugin.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Info-Standalone_Plugin.plist"; path = "Info-Standalone_Plugin.plist"; sourceTree = SOURCE_ROOT; };
+		275F5D9809E4F6663B220496 /* OnnxModel.cpp */ /* OnnxModel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = OnnxModel.cpp; path = ../../Source/OnnxModel.cpp; sourceTree = SOURCE_ROOT; };
 		2BA54F31DDDB106DE43005DE /* Foundation.framework */ /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		303214CC3CE2B65FCFE04983 /* WebKit.framework */ /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		3280507A1F46C5C186C2ED41 /* lib */ /* lib */ = {isa = PBXFileReference; lastKnownFileType = folder; name = lib; path = "../../onnxruntime/onnxruntime-osx-universal2-1.14.1/lib"; sourceTree = "<group>"; };
 		34F11DBF1E16362986B6DD48 /* include_juce_events.mm */ /* include_juce_events.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_events.mm; path = ../../JuceLibraryCode/include_juce_events.mm; sourceTree = SOURCE_ROOT; };
 		378277E8338F64F939831C2F /* CoreAudioKit.framework */ /* CoreAudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudioKit.framework; path = System/Library/Frameworks/CoreAudioKit.framework; sourceTree = SDKROOT; };
 		3967A0747807CA9C7DD75507 /* PluginProcessor.h */ /* PluginProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PluginProcessor.h; path = ../../Source/PluginProcessor.h; sourceTree = SOURCE_ROOT; };
 		42ED7E63D526C5288F0CE08B /* include_juce_data_structures.mm */ /* include_juce_data_structures.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_data_structures.mm; path = ../../JuceLibraryCode/include_juce_data_structures.mm; sourceTree = SOURCE_ROOT; };
+		57796631C38B63F0E47796FC /* OnnxModel.h */ /* OnnxModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OnnxModel.h; path = ../../Source/OnnxModel.h; sourceTree = SOURCE_ROOT; };
 		58559EBE81299CB042A8A57C /* juce_data_structures */ /* juce_data_structures */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_data_structures; path = /Users/tsugumasayutani/JUCE/modules/juce_data_structures; sourceTree = "<absolute>"; };
 		58C17AC1B185AC6245162AA0 /* juce_audio_basics */ /* juce_audio_basics */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_audio_basics; path = /Users/tsugumasayutani/JUCE/modules/juce_audio_basics; sourceTree = "<absolute>"; };
 		599E1364F985D9009C34ADFE /* Cocoa.framework */ /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
-		5EF39991A3644BAF675D2E1F /* MainComponent.h */ /* MainComponent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MainComponent.h; path = ../../../../DrawAudioWave01/Source/MainComponent.h; sourceTree = SOURCE_ROOT; };
 		618021D9DE61A68B9ED0CC91 /* include_juce_graphics.mm */ /* include_juce_graphics.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_graphics.mm; path = ../../JuceLibraryCode/include_juce_graphics.mm; sourceTree = SOURCE_ROOT; };
 		61B4BF4EDACEC8910F1FF8E9 /* Standalone Plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WavetableSynth.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6748468A96B0F3EE1274984A /* juce_audio_processors */ /* juce_audio_processors */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_audio_processors; path = /Users/tsugumasayutani/JUCE/modules/juce_audio_processors; sourceTree = "<absolute>"; };
@@ -106,7 +110,7 @@
 		92B02B3F6D104D908CA52E00 /* WavetableOscillator.h */ /* WavetableOscillator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = WavetableOscillator.h; path = ../../Source/WavetableOscillator.h; sourceTree = SOURCE_ROOT; };
 		92C47E8F555B102EE3829FFB /* include_juce_audio_processors_ara.cpp */ /* include_juce_audio_processors_ara.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = include_juce_audio_processors_ara.cpp; path = ../../JuceLibraryCode/include_juce_audio_processors_ara.cpp; sourceTree = SOURCE_ROOT; };
 		94AA0EE1E6F001A8D4FAF37A /* include_juce_audio_utils.mm */ /* include_juce_audio_utils.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_audio_utils.mm; path = ../../JuceLibraryCode/include_juce_audio_utils.mm; sourceTree = SOURCE_ROOT; };
-		99D084CDC2C41CB672D1CF07 /* MainComponent.cpp */ /* MainComponent.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = MainComponent.cpp; path = ../../../../DrawAudioWave01/Source/MainComponent.cpp; sourceTree = SOURCE_ROOT; };
+		96B2D590A2C506519A303F0B /* model */ /* model */ = {isa = PBXFileReference; lastKnownFileType = folder; name = model; path = ../../model; sourceTree = "<group>"; };
 		9E0731A106A3C21B9A6414FB /* juce_audio_devices */ /* juce_audio_devices */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_audio_devices; path = /Users/tsugumasayutani/JUCE/modules/juce_audio_devices; sourceTree = "<absolute>"; };
 		A70AF36787D34E6F219771FA /* PluginProcessor.cpp */ /* PluginProcessor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = PluginProcessor.cpp; path = ../../Source/PluginProcessor.cpp; sourceTree = SOURCE_ROOT; };
 		AC1A1334CFA497F4FFD11D33 /* juce_graphics */ /* juce_graphics */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_graphics; path = /Users/tsugumasayutani/JUCE/modules/juce_graphics; sourceTree = "<absolute>"; };
@@ -197,6 +201,8 @@
 		72D844B665092341F8CE45CA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				96B2D590A2C506519A303F0B,
+				3280507A1F46C5C186C2ED41,
 				107480B262C57A845809C855,
 				D9A99751DB24AFB5871070D2,
 				152DAE605420E7AC85D52AC4,
@@ -288,8 +294,8 @@
 				92B02B3F6D104D908CA52E00,
 				D7BFEB4A87AF0D2DED12A4EC,
 				6A4476DAB4DA5579490F23B7,
-				99D084CDC2C41CB672D1CF07,
-				5EF39991A3644BAF675D2E1F,
+				275F5D9809E4F6663B220496,
+				57796631C38B63F0E47796FC,
 			);
 			name = WavetableSynth;
 			sourceTree = "<group>";
@@ -531,6 +537,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				449BEBBBAE41117BC49C2863,
+				A8C0D686C4B9EC2E9415C373,
 				992637C4272A3F69B1A32A64,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -539,6 +547,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				449BEBBBAE41117BC49C2863,
+				A8C0D686C4B9EC2E9415C373,
 				992637C4272A3F69B1A32A64,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -547,6 +557,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				449BEBBBAE41117BC49C2863,
+				A8C0D686C4B9EC2E9415C373,
 				992637C4272A3F69B1A32A64,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -579,7 +591,7 @@
 				0A17F97D2BFC8DFAC2ECE708,
 				520B7C2DE63438F9470ACB8E,
 				5BCD6132C23E8DBB1CCC665E,
-				7AAA39E26C1AE7332E848162,
+				5A0504CAA84E7BEA8723702E,
 				5AF70D80AAF15755DB0CAF03,
 				D544AF3459698D1837347C92,
 				65127839A2FB52B59D5DDA38,
@@ -786,16 +798,22 @@
 					"/Users/tsugumasayutani/VST_SDK",
 					"$(SRCROOT)/../../JuceLibraryCode",
 					"/Users/tsugumasayutani/JUCE/modules",
+					"$(SRCROOT)/../../onnxruntime/onnxruntime-osx-universal2-1.14.1/include",
 					"/Users/tsugumasayutani/JUCE/modules/juce_audio_plugin_client/AU",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = Info-AU.plist;
 				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "$(HOME)/Library/Audio/Plug-Ins/Components/";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Resources/lib";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"../../onnxruntime/onnxruntime-osx-universal2-1.14.1/lib\"",
+				);
 				LIBRARY_STYLE = Bundle;
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MTL_HEADER_SEARCH_PATHS = "/Users/tsugumasayutani/JUCE/modules/juce_audio_processors/format_types/VST3_SDK /Users/tsugumasayutani/VST_SDK $(SRCROOT)/../../JuceLibraryCode /Users/tsugumasayutani/JUCE/modules /Users/tsugumasayutani/JUCE/modules/juce_audio_plugin_client/AU";
-				OTHER_LDFLAGS = "-bundle -lWavetableSynth -weak_framework Metal -weak_framework MetalKit";
+				MTL_HEADER_SEARCH_PATHS = "/Users/tsugumasayutani/JUCE/modules/juce_audio_processors/format_types/VST3_SDK /Users/tsugumasayutani/VST_SDK $(SRCROOT)/../../JuceLibraryCode /Users/tsugumasayutani/JUCE/modules $(SRCROOT)/../../onnxruntime/onnxruntime-osx-universal2-1.14.1/include /Users/tsugumasayutani/JUCE/modules/juce_audio_plugin_client/AU";
+				OTHER_LDFLAGS = "-bundle -lWavetableSynth -lonnxruntime -weak_framework Metal -weak_framework MetalKit";
 				OTHER_REZFLAGS = "-d ppc_$ppc -d i386_$i386 -d ppc64_$ppc64 -d x86_64_$x86_64 -d arm64_$arm64 -I /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Versions/A/Headers -I \"$(DEVELOPER_DIR)/Extras/CoreAudio/AudioUnits/AUPublic/AUBase\" -I \"$(DEVELOPER_DIR)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/AudioUnit.framework/Headers\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.WavetableSynth;
 				PRODUCT_NAME = "WavetableSynth";
@@ -902,17 +920,23 @@
 					"/Users/tsugumasayutani/VST_SDK",
 					"$(SRCROOT)/../../JuceLibraryCode",
 					"/Users/tsugumasayutani/JUCE/modules",
+					"/Users/tsugumasayutani/Documents/onnxruntime/onnxruntime-osx-universal2-1.14.1/include",
 					"/Users/tsugumasayutani/JUCE/modules/juce_audio_plugin_client/AU",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = Info-VST3.plist;
 				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "$(HOME)/Library/Audio/Plug-Ins/VST3/";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Resources/lib";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"/Users/tsugumasayutani/Documents/onnxruntime/onnxruntime-osx-universal2-1.14.1/lib\"",
+				);
 				LIBRARY_STYLE = Bundle;
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MTL_HEADER_SEARCH_PATHS = "/Users/tsugumasayutani/JUCE/modules/juce_audio_processors/format_types/VST3_SDK /Users/tsugumasayutani/VST_SDK $(SRCROOT)/../../JuceLibraryCode /Users/tsugumasayutani/JUCE/modules /Users/tsugumasayutani/JUCE/modules/juce_audio_plugin_client/AU";
-				OTHER_LDFLAGS = "-bundle -lWavetableSynth -weak_framework Metal -weak_framework MetalKit";
+				MTL_HEADER_SEARCH_PATHS = "/Users/tsugumasayutani/JUCE/modules/juce_audio_processors/format_types/VST3_SDK /Users/tsugumasayutani/VST_SDK $(SRCROOT)/../../JuceLibraryCode /Users/tsugumasayutani/JUCE/modules /Users/tsugumasayutani/Documents/onnxruntime/onnxruntime-osx-universal2-1.14.1/include /Users/tsugumasayutani/JUCE/modules/juce_audio_plugin_client/AU";
+				OTHER_LDFLAGS = "-bundle -lWavetableSynth -lonnxruntime -weak_framework Metal -weak_framework MetalKit";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.WavetableSynth;
 				PRODUCT_NAME = "WavetableSynth";
 				USE_HEADERMAP = NO;
@@ -1023,14 +1047,20 @@
 					"/Users/tsugumasayutani/VST_SDK",
 					"$(SRCROOT)/../../JuceLibraryCode",
 					"/Users/tsugumasayutani/JUCE/modules",
+					"$(SRCROOT)/../../onnxruntime/onnxruntime-osx-universal2-1.14.1/include",
 					"/Users/tsugumasayutani/JUCE/modules/juce_audio_plugin_client/AU",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = Info-Standalone_Plugin.plist;
 				INFOPLIST_PREPROCESS = NO;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Resources/lib";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"../../onnxruntime/onnxruntime-osx-universal2-1.14.1/lib\"",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MTL_HEADER_SEARCH_PATHS = "/Users/tsugumasayutani/JUCE/modules/juce_audio_processors/format_types/VST3_SDK /Users/tsugumasayutani/VST_SDK $(SRCROOT)/../../JuceLibraryCode /Users/tsugumasayutani/JUCE/modules /Users/tsugumasayutani/JUCE/modules/juce_audio_plugin_client/AU";
-				OTHER_LDFLAGS = "-lWavetableSynth -weak_framework Metal -weak_framework MetalKit";
+				MTL_HEADER_SEARCH_PATHS = "/Users/tsugumasayutani/JUCE/modules/juce_audio_processors/format_types/VST3_SDK /Users/tsugumasayutani/VST_SDK $(SRCROOT)/../../JuceLibraryCode /Users/tsugumasayutani/JUCE/modules $(SRCROOT)/../../onnxruntime/onnxruntime-osx-universal2-1.14.1/include /Users/tsugumasayutani/JUCE/modules/juce_audio_plugin_client/AU";
+				OTHER_LDFLAGS = "-lWavetableSynth -lonnxruntime -weak_framework Metal -weak_framework MetalKit";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.WavetableSynth;
 				PRODUCT_NAME = "WavetableSynth";
 				USE_HEADERMAP = NO;
@@ -1135,16 +1165,22 @@
 					"/Users/tsugumasayutani/VST_SDK",
 					"$(SRCROOT)/../../JuceLibraryCode",
 					"/Users/tsugumasayutani/JUCE/modules",
+					"$(SRCROOT)/../../onnxruntime/onnxruntime-osx-universal2-1.14.1/include",
 					"/Users/tsugumasayutani/JUCE/modules/juce_audio_plugin_client/AU",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = Info-VST3.plist;
 				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "$(HOME)/Library/Audio/Plug-Ins/VST3/";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Resources/lib";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"../../onnxruntime/onnxruntime-osx-universal2-1.14.1/lib\"",
+				);
 				LIBRARY_STYLE = Bundle;
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MTL_HEADER_SEARCH_PATHS = "/Users/tsugumasayutani/JUCE/modules/juce_audio_processors/format_types/VST3_SDK /Users/tsugumasayutani/VST_SDK $(SRCROOT)/../../JuceLibraryCode /Users/tsugumasayutani/JUCE/modules /Users/tsugumasayutani/JUCE/modules/juce_audio_plugin_client/AU";
-				OTHER_LDFLAGS = "-bundle -lWavetableSynth -weak_framework Metal -weak_framework MetalKit";
+				MTL_HEADER_SEARCH_PATHS = "/Users/tsugumasayutani/JUCE/modules/juce_audio_processors/format_types/VST3_SDK /Users/tsugumasayutani/VST_SDK $(SRCROOT)/../../JuceLibraryCode /Users/tsugumasayutani/JUCE/modules $(SRCROOT)/../../onnxruntime/onnxruntime-osx-universal2-1.14.1/include /Users/tsugumasayutani/JUCE/modules/juce_audio_plugin_client/AU";
+				OTHER_LDFLAGS = "-bundle -lWavetableSynth -lonnxruntime -weak_framework Metal -weak_framework MetalKit";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.WavetableSynth;
 				PRODUCT_NAME = "WavetableSynth";
 				USE_HEADERMAP = NO;
@@ -1256,12 +1292,18 @@
 					"/Users/tsugumasayutani/VST_SDK",
 					"$(SRCROOT)/../../JuceLibraryCode",
 					"/Users/tsugumasayutani/JUCE/modules",
+					"$(SRCROOT)/../../onnxruntime/onnxruntime-osx-universal2-1.14.1/include",
 					"/Users/tsugumasayutani/JUCE/modules/juce_audio_plugin_client/AU",
 					"$(inherited)",
 				);
 				INSTALL_PATH = "@executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Resources/lib";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"../../onnxruntime/onnxruntime-osx-universal2-1.14.1/lib\"",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MTL_HEADER_SEARCH_PATHS = "/Users/tsugumasayutani/JUCE/modules/juce_audio_processors/format_types/VST3_SDK /Users/tsugumasayutani/VST_SDK $(SRCROOT)/../../JuceLibraryCode /Users/tsugumasayutani/JUCE/modules /Users/tsugumasayutani/JUCE/modules/juce_audio_plugin_client/AU";
+				MTL_HEADER_SEARCH_PATHS = "/Users/tsugumasayutani/JUCE/modules/juce_audio_processors/format_types/VST3_SDK /Users/tsugumasayutani/VST_SDK $(SRCROOT)/../../JuceLibraryCode /Users/tsugumasayutani/JUCE/modules $(SRCROOT)/../../onnxruntime/onnxruntime-osx-universal2-1.14.1/include /Users/tsugumasayutani/JUCE/modules/juce_audio_plugin_client/AU";
 				OTHER_LDFLAGS = "-weak_framework Metal -weak_framework MetalKit";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.WavetableSynth;
 				PRODUCT_NAME = "WavetableSynth";
@@ -1368,17 +1410,23 @@
 					"/Users/tsugumasayutani/VST_SDK",
 					"$(SRCROOT)/../../JuceLibraryCode",
 					"/Users/tsugumasayutani/JUCE/modules",
+					"/Users/tsugumasayutani/Documents/onnxruntime/onnxruntime-osx-universal2-1.14.1/include",
 					"/Users/tsugumasayutani/JUCE/modules/juce_audio_plugin_client/AU",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = Info-AU.plist;
 				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "$(HOME)/Library/Audio/Plug-Ins/Components/";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Resources/lib";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"/Users/tsugumasayutani/Documents/onnxruntime/onnxruntime-osx-universal2-1.14.1/lib\"",
+				);
 				LIBRARY_STYLE = Bundle;
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MTL_HEADER_SEARCH_PATHS = "/Users/tsugumasayutani/JUCE/modules/juce_audio_processors/format_types/VST3_SDK /Users/tsugumasayutani/VST_SDK $(SRCROOT)/../../JuceLibraryCode /Users/tsugumasayutani/JUCE/modules /Users/tsugumasayutani/JUCE/modules/juce_audio_plugin_client/AU";
-				OTHER_LDFLAGS = "-bundle -lWavetableSynth -weak_framework Metal -weak_framework MetalKit";
+				MTL_HEADER_SEARCH_PATHS = "/Users/tsugumasayutani/JUCE/modules/juce_audio_processors/format_types/VST3_SDK /Users/tsugumasayutani/VST_SDK $(SRCROOT)/../../JuceLibraryCode /Users/tsugumasayutani/JUCE/modules /Users/tsugumasayutani/Documents/onnxruntime/onnxruntime-osx-universal2-1.14.1/include /Users/tsugumasayutani/JUCE/modules/juce_audio_plugin_client/AU";
+				OTHER_LDFLAGS = "-bundle -lWavetableSynth -lonnxruntime -weak_framework Metal -weak_framework MetalKit";
 				OTHER_REZFLAGS = "-d ppc_$ppc -d i386_$i386 -d ppc64_$ppc64 -d x86_64_$x86_64 -d arm64_$arm64 -I /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Versions/A/Headers -I \"$(DEVELOPER_DIR)/Extras/CoreAudio/AudioUnits/AUPublic/AUBase\" -I \"$(DEVELOPER_DIR)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/AudioUnit.framework/Headers\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.WavetableSynth;
 				PRODUCT_NAME = "WavetableSynth";
@@ -1482,15 +1530,21 @@
 					"/Users/tsugumasayutani/VST_SDK",
 					"$(SRCROOT)/../../JuceLibraryCode",
 					"/Users/tsugumasayutani/JUCE/modules",
+					"/Users/tsugumasayutani/Documents/onnxruntime/onnxruntime-osx-universal2-1.14.1/include",
 					"/Users/tsugumasayutani/JUCE/modules/juce_audio_plugin_client/AU",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = Info-Standalone_Plugin.plist;
 				INFOPLIST_PREPROCESS = NO;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Resources/lib";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"/Users/tsugumasayutani/Documents/onnxruntime/onnxruntime-osx-universal2-1.14.1/lib\"",
+				);
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MTL_HEADER_SEARCH_PATHS = "/Users/tsugumasayutani/JUCE/modules/juce_audio_processors/format_types/VST3_SDK /Users/tsugumasayutani/VST_SDK $(SRCROOT)/../../JuceLibraryCode /Users/tsugumasayutani/JUCE/modules /Users/tsugumasayutani/JUCE/modules/juce_audio_plugin_client/AU";
-				OTHER_LDFLAGS = "-lWavetableSynth -weak_framework Metal -weak_framework MetalKit";
+				MTL_HEADER_SEARCH_PATHS = "/Users/tsugumasayutani/JUCE/modules/juce_audio_processors/format_types/VST3_SDK /Users/tsugumasayutani/VST_SDK $(SRCROOT)/../../JuceLibraryCode /Users/tsugumasayutani/JUCE/modules /Users/tsugumasayutani/Documents/onnxruntime/onnxruntime-osx-universal2-1.14.1/include /Users/tsugumasayutani/JUCE/modules/juce_audio_plugin_client/AU";
+				OTHER_LDFLAGS = "-lWavetableSynth -lonnxruntime -weak_framework Metal -weak_framework MetalKit";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.WavetableSynth;
 				PRODUCT_NAME = "WavetableSynth";
 				USE_HEADERMAP = NO;
@@ -1593,13 +1647,19 @@
 					"/Users/tsugumasayutani/VST_SDK",
 					"$(SRCROOT)/../../JuceLibraryCode",
 					"/Users/tsugumasayutani/JUCE/modules",
+					"/Users/tsugumasayutani/Documents/onnxruntime/onnxruntime-osx-universal2-1.14.1/include",
 					"/Users/tsugumasayutani/JUCE/modules/juce_audio_plugin_client/AU",
 					"$(inherited)",
 				);
 				INSTALL_PATH = "@executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Resources/lib";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"/Users/tsugumasayutani/Documents/onnxruntime/onnxruntime-osx-universal2-1.14.1/lib\"",
+				);
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MTL_HEADER_SEARCH_PATHS = "/Users/tsugumasayutani/JUCE/modules/juce_audio_processors/format_types/VST3_SDK /Users/tsugumasayutani/VST_SDK $(SRCROOT)/../../JuceLibraryCode /Users/tsugumasayutani/JUCE/modules /Users/tsugumasayutani/JUCE/modules/juce_audio_plugin_client/AU";
+				MTL_HEADER_SEARCH_PATHS = "/Users/tsugumasayutani/JUCE/modules/juce_audio_processors/format_types/VST3_SDK /Users/tsugumasayutani/VST_SDK $(SRCROOT)/../../JuceLibraryCode /Users/tsugumasayutani/JUCE/modules /Users/tsugumasayutani/Documents/onnxruntime/onnxruntime-osx-universal2-1.14.1/include /Users/tsugumasayutani/JUCE/modules/juce_audio_plugin_client/AU";
 				OTHER_LDFLAGS = "-weak_framework Metal -weak_framework MetalKit";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.WavetableSynth;
 				PRODUCT_NAME = "WavetableSynth";

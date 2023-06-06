@@ -8,6 +8,22 @@
 		<data>
 		4cEN55flubpq9bxeGSBG3zMPYQw=
 		</data>
+		<key>Resources/lib/libonnxruntime.1.14.1.dylib</key>
+		<data>
+		pGfwvZdQMbnG5cTlUdwHUN4oWZY=
+		</data>
+		<key>Resources/lib/libonnxruntime.1.14.1.dylib.dSYM/Contents/Info.plist</key>
+		<data>
+		VtPDogsZnR3WasNewDDR5qR/Flk=
+		</data>
+		<key>Resources/lib/libonnxruntime.1.14.1.dylib.dSYM/Contents/Resources/DWARF/libonnxruntime.1.14.1.dylib</key>
+		<data>
+		AyAglyAfHNh0vS2ELxRtMjAqUcY=
+		</data>
+		<key>Resources/model/wavetable_cvae.onnx</key>
+		<data>
+		2pu873nunVuqApgUGNbGYTKLB5E=
+		</data>
 	</dict>
 	<key>files2</key>
 	<dict>
@@ -16,6 +32,39 @@
 			<key>hash2</key>
 			<data>
 			cY60xaOlVk3YMq6aNs9knz7yV86JbdkhaT7rYQG9AIo=
+			</data>
+		</dict>
+		<key>Resources/lib/libonnxruntime.1.14.1.dylib</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			g6cfMAZlxtJRbTlfvQaZZwFmKA/O3NhBk26pVRR/Yno=
+			</data>
+		</dict>
+		<key>Resources/lib/libonnxruntime.1.14.1.dylib.dSYM/Contents/Info.plist</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			lCKvMW48+xghrM98QdlTnGQ5PpNoeUIUgmTs3gvkTcg=
+			</data>
+		</dict>
+		<key>Resources/lib/libonnxruntime.1.14.1.dylib.dSYM/Contents/Resources/DWARF/libonnxruntime.1.14.1.dylib</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			95xvVSsnPSeWBlIXqWcOiMw8ue4F0rEgquP5RgrqqEM=
+			</data>
+		</dict>
+		<key>Resources/lib/libonnxruntime.dylib</key>
+		<dict>
+			<key>symlink</key>
+			<string>libonnxruntime.1.14.1.dylib</string>
+		</dict>
+		<key>Resources/model/wavetable_cvae.onnx</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			APg0wvzvxXjCWsEuKy9tgRmuC96yoomwd/U3pPEimP8=
 			</data>
 		</dict>
 	</dict>

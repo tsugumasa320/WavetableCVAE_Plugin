@@ -151,7 +151,7 @@ bool WavetableSynthAudioProcessor::hasEditor() const
 
 juce::AudioProcessorEditor* WavetableSynthAudioProcessor::createEditor()
 {
-    return new WavetableSynthAudioProcessorEditor (*this);
+    return new WavetableSynthAudioProcessorEditor (*this, synth);
 }
 
 //==============================================================================

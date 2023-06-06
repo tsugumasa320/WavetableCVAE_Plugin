@@ -17,9 +17,10 @@
 class WavetableSynthAudioProcessorEditor  : public juce::AudioProcessorEditor,private juce::Slider::Listener
 {
 public:
-    WavetableSynthAudioProcessorEditor (WavetableSynthAudioProcessor&);
+    WavetableSynthAudioProcessorEditor (WavetableSynthAudioProcessor&, WavetableSynth&);
     ~WavetableSynthAudioProcessorEditor() override;
     //==============================================================================
+    
     void prepareToPlay(int samplesPerBlockExpected, double sampleRate);
     void getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill);
     void releaseResources();
@@ -69,11 +70,9 @@ private:
     void paintIfNoFileLoaded(juce::Graphics& g, const juce::Rectangle<int>& thumbnailBounds);
     void paintIfFileLoaded(juce::Graphics& g, const juce::Rectangle<int>& thumbnailBounds);
 
-    WavetableSynth synth;
+    WavetableSynth& synth;
     int bufferSize;
     juce::AudioBuffer<float> buffer;
     std::unique_ptr<juce::AudioFormatReader> reader;
-
-    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (WavetableSynthAudioProcessorEditor)
 };

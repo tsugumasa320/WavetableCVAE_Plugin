@@ -192,7 +192,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "15"
             endingLineNumber = "15"
-            landmarkName = "WavetableSynthAudioProcessorEditor::WavetableSynthAudioProcessorEditor(p)"
+            landmarkName = "WavetableSynthAudioProcessorEditor::WavetableSynthAudioProcessorEditor(p, s)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

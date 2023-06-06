@@ -12,8 +12,8 @@
 
 
 //==============================================================================
-WavetableSynthAudioProcessorEditor::WavetableSynthAudioProcessorEditor (WavetableSynthAudioProcessor& p)
-    : AudioProcessorEditor (&p), audioProcessor (p), state(Stopped), thumbnailCache(5), thumbnail(512, formatManager, thumbnailCache)
+WavetableSynthAudioProcessorEditor::WavetableSynthAudioProcessorEditor (WavetableSynthAudioProcessor& p, WavetableSynth& s)
+    : AudioProcessorEditor (&p), audioProcessor (p), state(Stopped), thumbnailCache(5), thumbnail(512, formatManager, thumbnailCache), synth(s)
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
@@ -92,7 +92,6 @@ void WavetableSynthAudioProcessorEditor::resized()
     
     //ウィンドウリサイズの際にスライダーの画面位置と幅、高さを設定します。(x, y, width, height)
     midiVolume.setBounds (40, 30, 20, getHeight() - 60);
-    
     openButton.setBounds(10, 10, getWidth() - 20, 20);
 }
 
@@ -151,7 +150,6 @@ void WavetableSynthAudioProcessorEditor::openButtonClicked()
             readerSource->getNextAudioBlock(info);
             // bufferをstd::vector<float>に変換します
             DBG("buffer2vector");
-            std::vector<float> samples;
             auto* channelData = buffer.getReadPointer(0); // 1chのみを読み込むため、0を指定します
             samples.assign(channelData, channelData + buffer.getNumSamples());
             synth.prepareToPlay(audioProcessor.getSampleRate(), samples);

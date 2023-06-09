@@ -14,8 +14,8 @@
             filePath = "../../Source/PluginProcessor.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "142"
-            endingLineNumber = "142"
+            startingLineNumber = "180"
+            endingLineNumber = "180"
             landmarkName = "WavetableSynthAudioProcessor::processBlock(buffer, midiMessages)"
             landmarkType = "7">
          </BreakpointContent>
@@ -192,7 +192,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "16"
             endingLineNumber = "16"
-            landmarkName = "WavetableSynthAudioProcessorEditor::WavetableSynthAudioProcessorEditor(p, s)"
+            landmarkName = "WavetableSynthAudioProcessorEditor::WavetableSynthAudioProcessorEditor(p, vts, s)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -446,9 +446,9 @@
             filePath = "../../Source/PluginEditor.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "72"
-            endingLineNumber = "72"
-            landmarkName = "WavetableSynthAudioProcessorEditor::WavetableSynthAudioProcessorEditor(p, s)"
+            startingLineNumber = "70"
+            endingLineNumber = "70"
+            landmarkName = "WavetableSynthAudioProcessorEditor::WavetableSynthAudioProcessorEditor(p, vts, s)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -462,8 +462,352 @@
             filePath = "../../Source/PluginEditor.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "125"
-            endingLineNumber = "125"
+            startingLineNumber = "121"
+            endingLineNumber = "121"
+            landmarkName = "WavetableSynthAudioProcessorEditor::sliderValueChanged(slider)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "D3BCB196-E309-40A1-AB9B-54A0764A5797 - a90b39362dd6d003"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WavetableSynthAudioProcessorEditor::sliderValueChanged(juce::Slider*)"
+                  moduleName = "WavetableSynth"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tsugumasayutani/Documents/GitHub/WavetableCVAE_plugin/WavetableSynth/Source/PluginEditor.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "125"
+                  endingLineNumber = "125"
+                  offsetFromSymbolStart = "148">
+               </Location>
+               <Location
+                  uuid = "D3BCB196-E309-40A1-AB9B-54A0764A5797 - a90b39362dd6d179"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WavetableSynthAudioProcessorEditor::sliderValueChanged(juce::Slider*)"
+                  moduleName = "WavetableSynth"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tsugumasayutani/Documents/GitHub/WavetableCVAE_plugin/WavetableSynth/Source/PluginEditor.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "131"
+                  endingLineNumber = "131"
+                  offsetFromSymbolStart = "148">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CC087F09-688D-4CB8-B19B-B8C9676F8A88"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/PluginEditor.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "228"
+            endingLineNumber = "228"
+            landmarkName = "unknown"
+            landmarkType = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "09553A0A-6534-4037-AFF6-336D3AB36CA7"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../../../../JUCE/modules/juce_audio_basics/buffers/juce_AudioSampleBuffer.h"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "257"
+            endingLineNumber = "257"
+            landmarkName = "getReadPointer(channelNumber)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "09553A0A-6534-4037-AFF6-336D3AB36CA7 - 926d327093dd2ac6"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "juce::AudioBuffer&lt;float&gt;::getReadPointer(int) const"
+                  moduleName = "WavetableSynth"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tsugumasayutani/JUCE/modules/juce_audio_basics/buffers/juce_AudioSampleBuffer.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "256"
+                  endingLineNumber = "256"
+                  offsetFromSymbolStart = "124">
+               </Location>
+               <Location
+                  uuid = "09553A0A-6534-4037-AFF6-336D3AB36CA7 - eb44bcbe493dec5c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "juce::AudioBuffer&lt;double&gt;::getReadPointer(int) const"
+                  moduleName = "WavetableSynth"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tsugumasayutani/JUCE/modules/juce_audio_basics/buffers/juce_AudioSampleBuffer.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "256"
+                  endingLineNumber = "256"
+                  offsetFromSymbolStart = "124">
+               </Location>
+               <Location
+                  uuid = "09553A0A-6534-4037-AFF6-336D3AB36CA7 - cedc217d34384489"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "juce::AudioBuffer&lt;int&gt;::getReadPointer(int) const"
+                  moduleName = "WavetableSynth"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tsugumasayutani/JUCE/modules/juce_audio_basics/buffers/juce_AudioSampleBuffer.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "256"
+                  endingLineNumber = "256"
+                  offsetFromSymbolStart = "124">
+               </Location>
+               <Location
+                  uuid = "09553A0A-6534-4037-AFF6-336D3AB36CA7 - 926d327093dd2ac6"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "juce::AudioBuffer&lt;float&gt;::getReadPointer(int) const"
+                  moduleName = "WavetableSynth"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tsugumasayutani/JUCE/modules/juce_audio_basics/buffers/juce_AudioSampleBuffer.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "256"
+                  endingLineNumber = "256"
+                  offsetFromSymbolStart = "116">
+               </Location>
+               <Location
+                  uuid = "09553A0A-6534-4037-AFF6-336D3AB36CA7 - eb44bcbe493dec5c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "juce::AudioBuffer&lt;double&gt;::getReadPointer(int) const"
+                  moduleName = "WavetableSynth"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tsugumasayutani/JUCE/modules/juce_audio_basics/buffers/juce_AudioSampleBuffer.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "256"
+                  endingLineNumber = "256"
+                  offsetFromSymbolStart = "116">
+               </Location>
+               <Location
+                  uuid = "09553A0A-6534-4037-AFF6-336D3AB36CA7 - cedc217d34384489"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "juce::AudioBuffer&lt;int&gt;::getReadPointer(int) const"
+                  moduleName = "WavetableSynth"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tsugumasayutani/JUCE/modules/juce_audio_basics/buffers/juce_AudioSampleBuffer.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "256"
+                  endingLineNumber = "256"
+                  offsetFromSymbolStart = "116">
+               </Location>
+               <Location
+                  uuid = "09553A0A-6534-4037-AFF6-336D3AB36CA7 - 926d327093dd2a29"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "juce::AudioBuffer&lt;float&gt;::getReadPointer(int) const"
+                  moduleName = "WavetableSynth"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tsugumasayutani/JUCE/modules/juce_audio_basics/buffers/juce_AudioSampleBuffer.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "257"
+                  endingLineNumber = "257"
+                  offsetFromSymbolStart = "120">
+               </Location>
+               <Location
+                  uuid = "09553A0A-6534-4037-AFF6-336D3AB36CA7 - eb44bcbe493decb3"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "juce::AudioBuffer&lt;double&gt;::getReadPointer(int) const"
+                  moduleName = "WavetableSynth"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tsugumasayutani/JUCE/modules/juce_audio_basics/buffers/juce_AudioSampleBuffer.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "257"
+                  endingLineNumber = "257"
+                  offsetFromSymbolStart = "120">
+               </Location>
+               <Location
+                  uuid = "09553A0A-6534-4037-AFF6-336D3AB36CA7 - cedc217d34384466"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "juce::AudioBuffer&lt;int&gt;::getReadPointer(int) const"
+                  moduleName = "WavetableSynth"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tsugumasayutani/JUCE/modules/juce_audio_basics/buffers/juce_AudioSampleBuffer.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "257"
+                  endingLineNumber = "257"
+                  offsetFromSymbolStart = "120">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FE3A7172-7A73-41BF-BFD1-688B5BF0AAEF"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../../../../JUCE/modules/juce_audio_basics/buffers/juce_AudioSampleBuffer.h"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "258"
+            endingLineNumber = "258"
+            landmarkName = "getReadPointer(channelNumber)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "FE3A7172-7A73-41BF-BFD1-688B5BF0AAEF - 926d327093dd2a08"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "juce::AudioBuffer&lt;float&gt;::getReadPointer(int) const"
+                  moduleName = "WavetableSynth"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tsugumasayutani/JUCE/modules/juce_audio_basics/buffers/juce_AudioSampleBuffer.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "258"
+                  endingLineNumber = "258"
+                  offsetFromSymbolStart = "296">
+               </Location>
+               <Location
+                  uuid = "FE3A7172-7A73-41BF-BFD1-688B5BF0AAEF - eb44bcbe493dec92"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "juce::AudioBuffer&lt;double&gt;::getReadPointer(int) const"
+                  moduleName = "WavetableSynth"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tsugumasayutani/JUCE/modules/juce_audio_basics/buffers/juce_AudioSampleBuffer.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "258"
+                  endingLineNumber = "258"
+                  offsetFromSymbolStart = "296">
+               </Location>
+               <Location
+                  uuid = "FE3A7172-7A73-41BF-BFD1-688B5BF0AAEF - cedc217d34384447"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "juce::AudioBuffer&lt;int&gt;::getReadPointer(int) const"
+                  moduleName = "WavetableSynth"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tsugumasayutani/JUCE/modules/juce_audio_basics/buffers/juce_AudioSampleBuffer.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "258"
+                  endingLineNumber = "258"
+                  offsetFromSymbolStart = "296">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DC906927-46B5-4353-9BD0-7AB92836368E"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/PluginEditor.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "190"
+            endingLineNumber = "190"
+            landmarkName = "WavetableSynthAudioProcessorEditor::drawWaveform(g, data, bounds, colour)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E980DEA4-A9E8-4AB5-9F9A-C0EAE78D0227"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/PluginEditor.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "177"
+            endingLineNumber = "177"
+            landmarkName = "unknown"
+            landmarkType = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "47F9D369-7B01-46D1-BED7-4CF26B0EBAAD"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/PluginEditor.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "95"
+            endingLineNumber = "95"
+            landmarkName = "WavetableSynthAudioProcessorEditor::paint(g)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DC95D500-3751-4103-9912-69644E7BB3DF"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/PluginEditor.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "188"
+            endingLineNumber = "188"
+            landmarkName = "WavetableSynthAudioProcessorEditor::drawWaveform(g, data, bounds, colour)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "AE50D9A0-35B0-4363-A270-816C7804D1D7"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/PluginEditor.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "113"
+            endingLineNumber = "113"
             landmarkName = "WavetableSynthAudioProcessorEditor::sliderValueChanged(slider)"
             landmarkType = "7">
          </BreakpointContent>
@@ -471,16 +815,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "161C8026-6F77-4903-9E12-E7B7139FDAFE"
+            uuid = "2C859998-0A48-425D-AF16-2C08189DF20B"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../Source/PluginEditor.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "248"
-            endingLineNumber = "248"
-            landmarkName = "WavetableSynthAudioProcessorEditor::paintIfFileLoaded(g, thumbnailBounds, thumbnail, color)"
+            startingLineNumber = "35"
+            endingLineNumber = "35"
+            landmarkName = "WavetableSynthAudioProcessorEditor::WavetableSynthAudioProcessorEditor(p, vts, s)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

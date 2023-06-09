@@ -13,11 +13,9 @@
 
 
 //==============================================================================
-WavetableSynthAudioProcessorEditor::WavetableSynthAudioProcessorEditor (WavetableSynthAudioProcessor& p, WavetableSynth& s)
+WavetableSynthAudioProcessorEditor::WavetableSynthAudioProcessorEditor (WavetableSynthAudioProcessor& p, juce::AudioProcessorValueTreeState& vts, WavetableSynth& s)
     : AudioProcessorEditor (&p), audioProcessor (p),
-    inputThumbnailCache(1), inputThumbnail(600, formatManager, inputThumbnailCache),
-    outputThumbnailCache(1), outputThumbnail(600, formatManager, outputThumbnailCache),
-    synth(s)
+    valueTreeState(vts), synth(s)
 {
     //==============================================================================
     // Make sure that before the constructor has finished, you've set the
@@ -27,28 +25,29 @@ WavetableSynthAudioProcessorEditor::WavetableSynthAudioProcessorEditor (Wavetabl
     // Init of UI settings
     
     setSize (800, 600);
-        
+    
+    //コンポーネントの設定
+    // gain slider
+    addAndMakeVisible(gainSlider);
+    gainAttachment.reset(new SliderAttachment(valueTreeState, "gain", gainSlider));
+    
+    // bright slider
+    addAndMakeVisible(brightSlider);
+    brightAttachment.reset(new SliderAttachment(valueTreeState, "bright", brightSlider));
     brightSlider.setSliderStyle(juce::Slider::LinearVertical);
-    brightSlider.setRange(0.0, 1.0);
-    brightSlider.setBounds(300, 300, 20, 230); // スライダーの x座標 y座標 横幅 縦幅 を指定
-    
-    warmSlider.setSliderStyle(juce::Slider::LinearVertical);
-    warmSlider.setRange(0.0, 1.0);
-    warmSlider.setBounds(390, 300, 20, 230);
-    
-    richSlider.setSliderStyle(juce::Slider::LinearVertical);
-    richSlider.setRange(0.0, 1.0);
-    richSlider.setBounds(480, 300, 20, 230);
-    
-    // add the listener to the slider
     brightSlider.addListener (this);
-    warmSlider.addListener (this);
-    richSlider.addListener (this);
     
-    //スライダーオブジェクトを可視化
-    addAndMakeVisible(&brightSlider);
-    addAndMakeVisible(&warmSlider);
-    addAndMakeVisible(&richSlider);
+    // warm slider
+    warmAttachment.reset(new SliderAttachment(valueTreeState, "warm", warmSlider));
+    warmSlider.setSliderStyle(juce::Slider::LinearVertical);
+    addAndMakeVisible(warmSlider);
+    warmSlider.addListener (this);
+    
+    // rich slider
+    richAttachment.reset(new SliderAttachment(valueTreeState, "rich", richSlider));
+    richSlider.setSliderStyle(juce::Slider::LinearVertical);
+    addAndMakeVisible(richSlider);
+    richSlider.addListener (this);
     
     // openボタンの実装
     addAndMakeVisible(&openButton);
@@ -59,8 +58,7 @@ WavetableSynthAudioProcessorEditor::WavetableSynthAudioProcessorEditor (Wavetabl
     
     //==============================================================================
     // Init of wavetable settings
-    WAVETABLE_SIZE = 600;
-    label = {bright, warm, rich};
+    label = {b, w, r};
     
     std::vector<float> sineWaveTable = generateSineWaveTable();
     synth.prepareToPlay(audioProcessor.getSampleRate(), sineWaveTable);
@@ -76,7 +74,6 @@ WavetableSynthAudioProcessorEditor::WavetableSynthAudioProcessorEditor (Wavetabl
 
 WavetableSynthAudioProcessorEditor::~WavetableSynthAudioProcessorEditor()
 {
-    delete outputThumb;
 }
 
 //==============================================================================
@@ -90,18 +87,13 @@ void WavetableSynthAudioProcessorEditor::paint (juce::Graphics& g)
     g.drawImage(background, backgroundBounds);
     
     // thumnailBounds
-    juce::Rectangle<int> inputThumbnailBounds(25, 400, 220, 150); // initial x, initial y, width, height
-    juce::Rectangle<int> outputThumbnailBounds(getWidth()-25-220, 400, 220, 150);
+    juce::Rectangle<float> inputThumbnailBounds(25, 400, 220, 150); // initial x, initial y, width, height
+    juce::Rectangle<float> outputThumbnailBounds(getWidth()-25-220, 400, 220, 150);
     
     // Draw waveforms
-    if (samples.empty()){
-        paintIfNoFileLoaded(g, inputThumbnailBounds);
-        paintIfNoFileLoaded(g, outputThumbnailBounds);
-    }
-    else{
-        paintIfFileLoaded(g, inputThumbnailBounds, inputThumbnail, juce::Colours::blue);
-        paintIfFileLoaded(g, outputThumbnailBounds, outputThumbnail, juce::Colours::red);
-    }
+    drawWaveform(g, inputWavetable, inputThumbnailBounds, juce::Colours::blue);
+    drawWaveform(g, outputWavetable, outputThumbnailBounds, juce::Colours::red);
+    
 }
 
 void WavetableSynthAudioProcessorEditor::resized()
@@ -109,33 +101,31 @@ void WavetableSynthAudioProcessorEditor::resized()
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
     openButton.setBounds(10, getHeight()-30, getWidth() - 20, 20);
+    //gainSlider.setBounds(10, 10, 200, 30);
+    brightSlider.setBounds(305, 300, 20, 230);
+    warmSlider.setBounds(390, 300, 20, 230);
+    richSlider.setBounds(475, 300, 20, 230);
+
 }
 
 void WavetableSynthAudioProcessorEditor::sliderValueChanged (juce::Slider* slider)
 {
+    b = brightSlider.getValue();
+    w = warmSlider.getValue();
+    r = richSlider.getValue();
     
-    bright = brightSlider.getValue();
-    warm = warmSlider.getValue();
-    rich = richSlider.getValue();
-    
-    if (samples.empty()){
-        samples = generateSineWaveTable();
+    if (inputWavetable.empty()){
+        inputWavetable = generateSineWaveTable();
     }
 
     WavetableSynthAudioProcessorEditor::inference();
-    //repaint();
+    repaint();
     
-    DBG("bright: " << bright << ", warm: " << warm << ", rich: " << rich);
+    DBG("bright: " << b << ", warm: " << w << ", rich: " << r);
 }
 
 //==============================================================================
 // audio loader
-
-
-void WavetableSynthAudioProcessorEditor::thumbnailChanged()
-{
-    repaint();
-}
 
 void WavetableSynthAudioProcessorEditor::openButtonClicked()
 {
@@ -164,13 +154,20 @@ void WavetableSynthAudioProcessorEditor::openButtonClicked()
             // Creating a new source for the TransportSource
             std::unique_ptr<juce::AudioFormatReaderSource> newSource(new juce::AudioFormatReaderSource(reader.get(), false));
             
-            // Setting the source for the thumbnail
-            inputThumbnail.setSource(new juce::FileInputSource(file));
             // Keeping the new source in readerSource
             readerSource.reset(newSource.release());
                         
             // Initializing the buffer size and the buffer
             buffer.setSize(reader->numChannels, WAVETABLE_SIZE);
+            
+            bool isStereo = (buffer.getNumChannels()>=2)? true:false;
+            
+            // convert to mono if stereo
+            if (isStereo)
+            {
+                // add the right (1) to the left (0)
+                buffer.addFrom(0, 0, buffer, 1, 0, buffer.getNumSamples());
+            }
             
             // Reading data from the AudioFormatReaderSource
             juce::AudioSourceChannelInfo info(&buffer, 0, WAVETABLE_SIZE);
@@ -178,7 +175,7 @@ void WavetableSynthAudioProcessorEditor::openButtonClicked()
             
             // Converting the buffer data into vector
             auto* channelData = buffer.getReadPointer(0); // 1chのみを読み込むため、0を指定します
-            samples.assign(channelData, channelData + buffer.getNumSamples());
+            inputWavetable.assign(channelData, channelData + buffer.getNumSamples());
             WavetableSynthAudioProcessorEditor::inference();
 
         }
@@ -187,77 +184,35 @@ void WavetableSynthAudioProcessorEditor::openButtonClicked()
 
 void WavetableSynthAudioProcessorEditor::inference()
 {
-    // Creating a vector to store the outputs
-    std::vector<float> ort_outputs(WAVETABLE_SIZE);
     // Processing the data through the ONNX model
-    ort_outputs = onnxModel.process(samples, label, WAVETABLE_SIZE);
-    // Creating a new AudioBuffer from the output vector
-    juce::AudioBuffer<float>* outputThumb = new juce::AudioBuffer<float>(1, WAVETABLE_SIZE);
-
-    // Copy data from the vector to the AudioBuffer
-    for (int i = 0; i < ort_outputs.size(); ++i)
-    {
-        outputThumb->setSample(0, i, ort_outputs[i]);
-    }
-    // Setting the source for the outputThumbnail
-    outputThumbnail.setSource(outputThumb, audioProcessor.getSampleRate(), 0); // 0で良いのか？
+    outputWavetable = onnxModel.process(inputWavetable, label, WAVETABLE_SIZE);
     // Preparing the synth to play the processed data
-    synth.prepareToPlay(audioProcessor.getSampleRate(), ort_outputs);
+    synth.prepareToPlay(audioProcessor.getSampleRate(), outputWavetable);
 }
 
-/*
-void WavetableSynthAudioProcessorEditor::inference()
+void WavetableSynthAudioProcessorEditor::drawWaveform(juce::Graphics& g, const std::vector<float>& data, juce::Rectangle<float> bounds, juce::Colour colour)
 {
-    // Creating a vector to store the outputs
-    std::vector<float> ort_outputs(WAVETABLE_SIZE);
-    // Processing the data through the ONNX model
-    ort_outputs = onnxModel.process(samples, label);
-    
-    // Creating a new AudioBuffer from the output vector using a smart pointer
-    auto outputThumb = std::make_unique<juce::AudioBuffer<float>>(1, WAVETABLE_SIZE);
-
-    // Copy data from the vector to the AudioBuffer
-    for (int i = 0; i < ort_outputs.size(); ++i)
+    if (data.empty())
     {
-        outputThumb->setSample(0, i, ort_outputs[i]);
+        return;
     }
-    
-    // Setting the source for the outputThumbnail
-    // Note: AudioThumbnail::setSource expects a raw pointer, so we use get() to retrieve it from the smart pointer.
-    outputThumbnail.setSource(outputThumb.get(), audioProcessor.getSampleRate(), 0);
-    
-    // Preparing the synth to play the processed data
-    synth.prepareToPlay(audioProcessor.getSampleRate(), ort_outputs);
+
+    juce::Path waveform;
+
+    // Start at the first point
+    waveform.startNewSubPath(bounds.getX(), juce::jmap(data[0], -1.0f, 1.0f, bounds.getBottom(), bounds.getY()));
+
+    // Add lines for each sample
+    for (size_t i = 1; i < data.size(); ++i)
+    {
+        waveform.lineTo(bounds.getX() + bounds.getWidth() * (i / static_cast<float>(data.size() - 1)),
+                        juce::jmap(data[i], -1.0f, 1.0f, bounds.getBottom(), bounds.getY()));
+    }
+
+    // Set the color and stroke style of the waveform
+    g.setColour(colour);
+    g.strokePath(waveform, juce::PathStrokeType(2.0f));
 }
- */
-
-
-void WavetableSynthAudioProcessorEditor::paintIfNoFileLoaded(juce::Graphics& g, const juce::Rectangle<int>& thumbnailBounds)
-{
-    g.setColour(juce::Colours::darkgrey);
-    g.fillRect(thumbnailBounds);
-    g.setColour(juce::Colours::white);
-    g.drawFittedText("No File Loaded", thumbnailBounds, juce::Justification::centred, 1);
-}
-
-void WavetableSynthAudioProcessorEditor::paintIfFileLoaded
- (juce::Graphics& g, const juce::Rectangle<int>& thumbnailBounds, juce::AudioThumbnail& thumbnail, juce::Colour color)
-{
-    g.setColour(juce::Colours::white);
-    g.fillRect(thumbnailBounds);
-    g.setColour(color);
-
-    thumbnail.drawChannels(g,
-        thumbnailBounds,
-        0.0,
-        thumbnail.getTotalLength(),
-        1.0f);
-    
-    // Draw a black border around the thumbnailBounds
-    g.setColour(juce::Colours::grey);
-    g.drawRect(thumbnailBounds, 1.5); // 1.5 is the line thickness
-}
-//==============================================================================
 
 std::vector<float> WavetableSynthAudioProcessorEditor::generateSineWaveTable()
 {

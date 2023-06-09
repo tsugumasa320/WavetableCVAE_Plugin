@@ -15,13 +15,16 @@
 //==============================================================================
 /**
 */
-class WavetableSynthAudioProcessorEditor  : public juce::AudioProcessorEditor,private juce::Slider::Listener
+class WavetableSynthAudioProcessorEditor  : public juce::AudioProcessorEditor, private juce::Slider::Listener
 {
 public:
-    WavetableSynthAudioProcessorEditor (WavetableSynthAudioProcessor&, WavetableSynth&);
+    WavetableSynthAudioProcessorEditor (WavetableSynthAudioProcessor&, juce::AudioProcessorValueTreeState& vts, WavetableSynth&);
     ~WavetableSynthAudioProcessorEditor() override;
     //==============================================================================
     
+    WavetableSynthAudioProcessorEditor (WavetableSynthAudioProcessor&, juce::AudioProcessorValueTreeState& vts);
+    typedef juce::AudioProcessorValueTreeState::SliderAttachment SliderAttachment;
+    //==============================================================================
     void prepareToPlay(int samplesPerBlockExpected, double sampleRate);
     void getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill);
     void releaseResources();
@@ -30,13 +33,13 @@ public:
     void paint (juce::Graphics&) override;
     void resized() override;
     //==============================================================================
-    std::vector<float> samples;
-    float bright;
-    float warm;
-    float rich;
-    int WAVETABLE_SIZE;
+    std::vector<float> inputWavetable;
+    std::vector<float> outputWavetable;
+    float b;
+    float w;
+    float r;
+    const int WAVETABLE_SIZE=600;
     //==============================================================================
-
     
 private:
     
@@ -45,29 +48,26 @@ private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     WavetableSynthAudioProcessor& audioProcessor;
-    juce::Slider brightSlider;
-    juce::Slider warmSlider;
-    juce::Slider richSlider;
     //==============================================================================
-    
+    // UI settings
     juce::TextButton openButton;
     std::unique_ptr<juce::FileChooser> chooser;
     juce::AudioFormatManager formatManager;
     std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
-    //==============================================================================
-    juce::AudioThumbnailCache inputThumbnailCache;
-    juce::AudioThumbnail inputThumbnail;
-    juce::AudioThumbnailCache outputThumbnailCache;
-    juce::AudioThumbnail outputThumbnail;
+    
+    juce::AudioProcessorValueTreeState& valueTreeState;
+    juce::Slider gainSlider;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> gainAttachment;
+    juce::Slider brightSlider;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> brightAttachment;
+    juce::Slider warmSlider;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> warmAttachment;
+    juce::Slider richSlider;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> richAttachment;
+    
     //==============================================================================
     // Paint-related definitions
-    
     void openButtonClicked();
-    void thumbnailChanged();
-    
-    void paintIfNoFileLoaded(juce::Graphics& g, const juce::Rectangle<int>& thumbnailBounds);
-    void paintIfFileLoaded
-    (juce::Graphics& g, const juce::Rectangle<int>& thumbnailBounds, juce::AudioThumbnail& thumbnail, juce::Colour color);
     static std::vector<float> generateSineWaveTable();
     //==============================================================================
     
@@ -79,7 +79,7 @@ private:
     void applyModel(AudioBuffer<float>& buffer);
     std::vector<float> label;
     void inference();
-    juce::AudioBuffer<float>* outputThumb;
+    void drawWaveform(juce::Graphics& g, const std::vector<float>& data, juce::Rectangle<float> bounds, juce::Colour colour);
     //==============================================================================
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (WavetableSynthAudioProcessorEditor)

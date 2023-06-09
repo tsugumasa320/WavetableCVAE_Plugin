@@ -18,8 +18,15 @@ class WavetableSynthAudioProcessor  : public juce::AudioProcessor
 {
 public:
     float noteOnVel;
-    juce::AudioParameterFloat* gain;
+    juce::AudioProcessorValueTreeState parameters;
+    std::atomic<float>* gainParam = nullptr;
+    //std::atomic<float>* brightParam = nullptr;
+    //std::atomic<float>* warmParam = nullptr;
+    //std::atomic<float>* richParam = nullptr;
+
+    float previousGain;
     double sampleRate;
+    
     //==============================================================================
     WavetableSynthAudioProcessor();
     ~WavetableSynthAudioProcessor() override;
@@ -60,7 +67,6 @@ public:
     //==============================================================================
 
 private:
-    
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(WavetableSynthAudioProcessor)
     WavetableSynth synth;

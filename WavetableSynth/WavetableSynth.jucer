@@ -5,6 +5,10 @@
               pluginCharacteristicsValue="pluginIsSynth,pluginProducesMidiOut,pluginWantsMidiIn"
               maxBinaryFileSize="20971520">
   <MAINGROUP id="GksYSh" name="WavetableSynth">
+    <FILE id="SyqnEN" name="ExtractFeatures.h" compile="0" resource="0"
+          file="Source/ExtractFeatures.h"/>
+    <FILE id="EAAZIX" name="ExtractFeatures.cpp" compile="1" resource="0"
+          file="Source/ExtractFeatures.cpp"/>
     <GROUP id="{70E50448-7B60-5309-8282-43B0528CF00A}" name="label"/>
     <GROUP id="{DE30C585-AFCA-D758-D36C-ADF7BF5B2499}" name="wavetable"/>
     <GROUP id="{2AAF0CFF-622B-FE19-D5CD-F399C885286D}" name="Source"/>

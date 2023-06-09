@@ -21,13 +21,36 @@ WavetableSynthAudioProcessor::WavetableSynthAudioProcessor() // コンストラ�
     #endif
     )
 #endif
-
+,parameters(*this, nullptr, juce::Identifier("APVTS"),
+        {
+    std::make_unique<juce::AudioParameterFloat>(ParameterID{"gain", 1},  // ID
+                                                        "Gain",  // name
+                                                         0.0f,     // min
+                                                         1.0f, // max
+                                                         0.5f),// default
+    std::make_unique<juce::AudioParameterFloat>(ParameterID{"bright",2},  // ID
+                                                        "Bright",  // name
+                                                         0.0f,     // min
+                                                         1.0f, // max
+                                                         0.5f),// default
+    std::make_unique<juce::AudioParameterFloat>(ParameterID{"warm",3},  // ID
+                                                        "Warm",  // name
+                                                         0.0f,     // min
+                                                         1.0f, // max
+                                                         0.5f),// default
+    std::make_unique<juce::AudioParameterFloat>(ParameterID{"rich",4},  // ID
+                                                        "Rich",  // name
+                                                         0.0f,     // min
+                                                         1.0f, // max
+                                                         0.5f),// default
+        })
 {
-    addParameter(gain = new juce::AudioParameterFloat("gain", //parameterID※
-         "Gain", // parameter name
-         0.0f,   // minimum value
-         1.0f,   // maximum value
-         0.5f)); // default value    
+    //IDを指定してパラメータの紐づけです。
+    gainParam = parameters.getRawParameterValue("gain");
+    //brightParam = parameters.getRawParameterValue("bright");
+    //warmParam = parameters.getRawParameterValue("warm");
+    //richParam = parameters.getRawParameterValue("rich");
+    
 }
 
 
@@ -100,6 +123,7 @@ void WavetableSynthAudioProcessor::changeProgramName (int index, const juce::Str
 //==============================================================================
 void WavetableSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
+    previousGain = *gainParam;
     this->sampleRate = sampleRate;
     synth.prepareToPlay(sampleRate);
 }
@@ -138,11 +162,25 @@ void WavetableSynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffe
 {
     juce::ScopedNoDenormals noDenormals;
 
+    
+    // Smoothing gain changes
+    float currentGain = *gainParam;
+
+    if (juce::approximatelyEqual (currentGain, previousGain))
+    {
+        buffer.applyGain (currentGain);
+    }
+    else
+    {
+        buffer.applyGainRamp (0, buffer.getNumSamples(), previousGain, currentGain);
+        previousGain = currentGain;
+    }
+    //
     for (auto i = 0; i < buffer.getNumChannels(); ++i)
         buffer.clear(i, 0, buffer.getNumSamples());
 
     synth.processBlock(buffer, midiMessages);
-    buffer.applyGain(*gain);
+    buffer.applyGain(*gainParam);
 }
 
 //==============================================================================
@@ -153,7 +191,7 @@ bool WavetableSynthAudioProcessor::hasEditor() const
 
 juce::AudioProcessorEditor* WavetableSynthAudioProcessor::createEditor()
 {
-    return new WavetableSynthAudioProcessorEditor (*this, synth);
+    return new WavetableSynthAudioProcessorEditor (*this, parameters, synth);
 }
 
 //==============================================================================

@@ -98,16 +98,16 @@ inline void InitApi() { Global<void>::api_ = OrtGetApiBase()->GetApi(ORT_API_VER
 // #include <onnxruntime_cxx_api.h>
 // #undef ORT_API_MANUAL_INIT
 //
-// OrtStatus* ORT_API_CALL RegisterCustomOps(OrtSessionOptions* options, const OrtApiBase* api_base) {
+// OrtStatus* ORT_API_CALL RegisterCustomOps(OrtSessionOptions* options, const OrtApiBase* api_base) {**
 //   Ort::InitApi(api_base->GetApi(ORT_API_VERSION));
 //   // ...
 // }
 //
-inline void InitApi(const OrtApi* api) { Global<void>::api_ = api; }
+inl void InitApi(const OrtApi* api) { Global<void>::api_ = *api; }
 #else
 #if defined(_MSC_VER) && !defined(__clang__)
 #pragma warning(push)
-// "Global initializer calls a non-constexpr function." Therefore you can't use ORT APIs in the other global initializers.
+// "Global initializer calls a non-constexp*r function." Therefore you can't use ORT APIs in the other global initializers.
 // Please define ORT_API_MANUAL_INIT if it conerns you.
 #pragma warning(disable : 26426)
 #endif

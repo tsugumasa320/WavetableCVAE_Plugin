@@ -9,57 +9,46 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 #include <JuceHeader.h>
+#include "../JuceLibraryCode/JuceHeader.h"
 
 
 //==============================================================================
 WavetableSynthAudioProcessorEditor::WavetableSynthAudioProcessorEditor (WavetableSynthAudioProcessor& p, WavetableSynth& s)
-    : AudioProcessorEditor (&p),audioProcessor (p), state(Stopped),
+    : AudioProcessorEditor (&p), audioProcessor (p),
     inputThumbnailCache(1), inputThumbnail(600, formatManager, inputThumbnailCache),
     outputThumbnailCache(1), outputThumbnail(600, formatManager, outputThumbnailCache),
     synth(s)
 {
+    //==============================================================================
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
+    //==============================================================================
+
+    // Init of UI settings
     
     setSize (800, 600);
         
-    brightSlider.setSliderStyle(juce::Slider::LinearHorizontal); // スライダーの形を指定します
-    brightSlider.setRange(0.0, 1.0); // スライダーの値の範囲を指定します
-    brightSlider.setBounds(150, 100, 250, 20); // スライダーの x座標 y座標 横幅 縦幅 を指定します
-    brightLabel.setText("bright", juce::dontSendNotification); // "volume"というテキストの表記を用意します
-    brightLabel.attachToComponent(&brightSlider, true); // 表記をvolumeSliderにくっつけます
+    brightSlider.setSliderStyle(juce::Slider::LinearVertical);
+    brightSlider.setRange(0.0, 1.0);
+    brightSlider.setBounds(300, 300, 20, 230); // スライダーの x座標 y座標 横幅 縦幅 を指定
     
-    warmSlider.setSliderStyle(juce::Slider::LinearHorizontal); // スライダーの形を指定します
-    warmSlider.setRange(0.0, 1.0); // スライダーの値の範囲を指定します
-    warmSlider.setBounds(150, 150, 250, 20); // スライダーの x座標 y座標 横幅 縦幅 を指定します
-    warmLabel.setText("warm", juce::dontSendNotification); // "volume"というテキストの表記を用意します
-    warmLabel.attachToComponent(&warmSlider, true); // 表記をvolumeSliderにくっつけます
+    warmSlider.setSliderStyle(juce::Slider::LinearVertical);
+    warmSlider.setRange(0.0, 1.0);
+    warmSlider.setBounds(390, 300, 20, 230);
     
-    richSlider.setSliderStyle(juce::Slider::LinearHorizontal); // スライダーの形を指定します
-    richSlider.setRange(0.0, 1.0); // スライダーの値の範囲を指定します
-    richSlider.setBounds(150, 200, 250, 20); // スライダーの x座標 y座標 横幅 縦幅 を指定します
-    richLabel.setText("rich", juce::dontSendNotification); // "volume"というテキストの表記を用意します
-    richLabel.attachToComponent(&richSlider, true); // 表記をvolumeSliderにくっつけます
-        
-    //スライダーオブジェクトの初期設定
-    midiVolume.setSliderStyle (juce::Slider::LinearBarVertical);
-    midiVolume.setRange (0.0, 1.0);
-    midiVolume.setTextBoxStyle (juce::Slider::NoTextBox, false, 90, 0);
-    midiVolume.setPopupDisplayEnabled (true, false, this);
-    midiVolume.setTextValueSuffix (" Volume");
-    midiVolume.setValue(1.0);
+    richSlider.setSliderStyle(juce::Slider::LinearVertical);
+    richSlider.setRange(0.0, 1.0);
+    richSlider.setBounds(480, 300, 20, 230);
     
     // add the listener to the slider
     brightSlider.addListener (this);
     warmSlider.addListener (this);
     richSlider.addListener (this);
-    midiVolume.addListener (this);
     
     //スライダーオブジェクトを可視化
     addAndMakeVisible(&brightSlider);
     addAndMakeVisible(&warmSlider);
     addAndMakeVisible(&richSlider);
-    addAndMakeVisible (&midiVolume);
     
     // openボタンの実装
     addAndMakeVisible(&openButton);
@@ -69,130 +58,179 @@ WavetableSynthAudioProcessorEditor::WavetableSynthAudioProcessorEditor (Wavetabl
     formatManager.registerBasicFormats();
     
     //==============================================================================
+    // Init of wavetable settings
+    WAVETABLE_SIZE = 600;
+    label = {bright, warm, rich};
     
+    std::vector<float> sineWaveTable = generateSineWaveTable();
+    synth.prepareToPlay(audioProcessor.getSampleRate(), sineWaveTable);
+    //==============================================================================
+    // Init of ONNX settings
     auto bundle = juce::File::getSpecialLocation (juce::File::currentExecutableFile).getParentDirectory().getParentDirectory();
     /** UPDATE THESE PARAMS FOR DIFFERENT MODELS!! **/
     auto model_file = bundle.getChildFile ("Resources/model/wavetable_cvae.onnx");
     onnxModel.setup(model_file);
+    //==============================================================================
+
 }
 
 WavetableSynthAudioProcessorEditor::~WavetableSynthAudioProcessorEditor()
 {
+    delete outputThumb;
 }
 
 //==============================================================================
 void WavetableSynthAudioProcessorEditor::paint (juce::Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
-    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
-    // g.fillAll (juce::Colours::white);
-    g.setColour (juce::Colours::white);
-    g.setFont (15.0f);
-    // g.drawFittedText ("Hello WavetableCVAE Synth!", getLocalBounds(), juce::Justification::centred, 1);
-    // 表示テキスト,ウィンドウのX,ウィンドウのY,幅,高さ,ウィンドウに対する位置,maximumNumberOfLines,inimumHorizontalScaleデフォルト)
-    g.drawFittedText ("WavetableCVAE", 0, 0, getWidth(), 30, juce::Justification::centred, 1);
     
-    // input thumnail
-    juce::Rectangle<int> inputThumbnailBounds(getWidth()/2+30, 50, 350, 250); // initial x, initial y, width, height
-
-    if (inputThumbnail.getNumChannels() == 0)
+    // Draw background image
+    juce::Image background = juce::ImageCache::getFromMemory(BinaryData::background_png, BinaryData::background_pngSize);
+    juce::Rectangle<float> backgroundBounds(0, 0, getWidth(), getHeight());
+    g.drawImage(background, backgroundBounds);
+    
+    // thumnailBounds
+    juce::Rectangle<int> inputThumbnailBounds(25, 400, 220, 150); // initial x, initial y, width, height
+    juce::Rectangle<int> outputThumbnailBounds(getWidth()-25-220, 400, 220, 150);
+    
+    // Draw waveforms
+    if (samples.empty()){
         paintIfNoFileLoaded(g, inputThumbnailBounds);
-    else
-        paintIfFileLoaded(g, inputThumbnailBounds);
-    
-    // output thumnail
-    juce::Rectangle<int> outputThumbnailBounds(getWidth()/2+30, getHeight()/2+10, 350, 250);
-
-    if (outputThumbnail.getNumChannels() == 0)
         paintIfNoFileLoaded(g, outputThumbnailBounds);
-    else
-        paintIfFileLoaded(g, outputThumbnailBounds);
+    }
+    else{
+        paintIfFileLoaded(g, inputThumbnailBounds, inputThumbnail, juce::Colours::blue);
+        paintIfFileLoaded(g, outputThumbnailBounds, outputThumbnail, juce::Colours::red);
+    }
 }
 
 void WavetableSynthAudioProcessorEditor::resized()
 {
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
-    
-    //ウィンドウリサイズの際にスライダーの画面位置と幅、高さを設定します。(x, y, width, height)
-    midiVolume.setBounds (40, 50, 20, getHeight() - 60);
-    openButton.setBounds(10, 10, getWidth() - 20, 20);
+    openButton.setBounds(10, getHeight()-30, getWidth() - 20, 20);
 }
 
 void WavetableSynthAudioProcessorEditor::sliderValueChanged (juce::Slider* slider)
 {
-//オーバーライドしているsliderValueChanged関数に独自の機能を追記していきます。
-    audioProcessor.noteOnVel = midiVolume.getValue();
+    
     bright = brightSlider.getValue();
     warm = warmSlider.getValue();
     rich = richSlider.getValue();
+    
+    if (samples.empty()){
+        samples = generateSineWaveTable();
+    }
+
+    WavetableSynthAudioProcessorEditor::inference();
+    //repaint();
+    
     DBG("bright: " << bright << ", warm: " << warm << ", rich: " << rich);
-//スライダー「midiVolume」の値をnoteOnVelの値に代入します。
 }
 
 //==============================================================================
 // audio loader
+
 
 void WavetableSynthAudioProcessorEditor::thumbnailChanged()
 {
     repaint();
 }
 
-void WavetableSynthAudioProcessorEditor::releaseResources()
-{
-    juce::FileLogger::outputDebugString("\nrelease\n");
-    transportSource.releaseResources();
-}
-
 void WavetableSynthAudioProcessorEditor::openButtonClicked()
 {
+    // File Chooser to select a WAV file
     chooser = std::make_unique<juce::FileChooser> ("Select a Wave file to play...",
                                                    juce::File{},
                                                    "*.wav");
     
+    // Setting the flags for the File Chooser
     auto chooserFlags = juce::FileBrowserComponent::openMode
                       | juce::FileBrowserComponent::canSelectFiles;
 
+    // Launching the File Chooser asynchronously
     chooser->launchAsync (chooserFlags, [this] (const juce::FileChooser& fc)
                           {
+        
+        // Getting the selected file
         auto file = fc.getResult();
-        // TODO:親ファイルのjsonを読み込んで，labelを設定する
-        // reader の解放
+        // Resetting the reader
         reader.reset();
+        // Creating a reader for the selected file
         reader.reset(formatManager.createReaderFor(file));
 
-        DBG("reader != nullptr");
         if (reader != nullptr)
         {
+            // Creating a new source for the TransportSource
             std::unique_ptr<juce::AudioFormatReaderSource> newSource(new juce::AudioFormatReaderSource(reader.get(), false));
-            transportSource.setSource(newSource.get(), 0, nullptr, reader->sampleRate);
-            inputThumbnail.setSource(new juce::FileInputSource(file));
-            readerSource.reset(newSource.release());
             
-            DBG("AudioBuffer2buffer");
-            // バッファサイズとバッファを初期化します
-            bufferSize = 600;
-            buffer.setSize(reader->numChannels, bufferSize);
-            // AudioFormatReaderSourceからデータを読み込む
-            juce::AudioSourceChannelInfo info(&buffer, 0, bufferSize);
+            // Setting the source for the thumbnail
+            inputThumbnail.setSource(new juce::FileInputSource(file));
+            // Keeping the new source in readerSource
+            readerSource.reset(newSource.release());
+                        
+            // Initializing the buffer size and the buffer
+            buffer.setSize(reader->numChannels, WAVETABLE_SIZE);
+            
+            // Reading data from the AudioFormatReaderSource
+            juce::AudioSourceChannelInfo info(&buffer, 0, WAVETABLE_SIZE);
             readerSource->getNextAudioBlock(info);
-            //labelの値を取得->Globalで設定済み
-            //AudioBufferをONNXに投げる
-            //返ってきた値をthumbnailに設定
-            //vectorに変換してsynth.prepareToPlayにも設定
-            // bufferをstd::vector<float>に変換します
-            DBG("buffer2vector");
+            
+            // Converting the buffer data into vector
             auto* channelData = buffer.getReadPointer(0); // 1chのみを読み込むため、0を指定します
             samples.assign(channelData, channelData + buffer.getNumSamples());
-            synth.prepareToPlay(audioProcessor.getSampleRate(), samples);
+            WavetableSynthAudioProcessorEditor::inference();
+
         }
     });
 }
 
-void WavetableSynthAudioProcessorEditor::applyModel(AudioBuffer<float>& buffer)
+void WavetableSynthAudioProcessorEditor::inference()
 {
-    onnxModel.process(buffer); // DLの処理
+    // Creating a vector to store the outputs
+    std::vector<float> ort_outputs(WAVETABLE_SIZE);
+    // Processing the data through the ONNX model
+    ort_outputs = onnxModel.process(samples, label, WAVETABLE_SIZE);
+    // Creating a new AudioBuffer from the output vector
+    juce::AudioBuffer<float>* outputThumb = new juce::AudioBuffer<float>(1, WAVETABLE_SIZE);
+
+    // Copy data from the vector to the AudioBuffer
+    for (int i = 0; i < ort_outputs.size(); ++i)
+    {
+        outputThumb->setSample(0, i, ort_outputs[i]);
+    }
+    // Setting the source for the outputThumbnail
+    outputThumbnail.setSource(outputThumb, audioProcessor.getSampleRate(), 0); // 0で良いのか？
+    // Preparing the synth to play the processed data
+    synth.prepareToPlay(audioProcessor.getSampleRate(), ort_outputs);
 }
+
+/*
+void WavetableSynthAudioProcessorEditor::inference()
+{
+    // Creating a vector to store the outputs
+    std::vector<float> ort_outputs(WAVETABLE_SIZE);
+    // Processing the data through the ONNX model
+    ort_outputs = onnxModel.process(samples, label);
+    
+    // Creating a new AudioBuffer from the output vector using a smart pointer
+    auto outputThumb = std::make_unique<juce::AudioBuffer<float>>(1, WAVETABLE_SIZE);
+
+    // Copy data from the vector to the AudioBuffer
+    for (int i = 0; i < ort_outputs.size(); ++i)
+    {
+        outputThumb->setSample(0, i, ort_outputs[i]);
+    }
+    
+    // Setting the source for the outputThumbnail
+    // Note: AudioThumbnail::setSource expects a raw pointer, so we use get() to retrieve it from the smart pointer.
+    outputThumbnail.setSource(outputThumb.get(), audioProcessor.getSampleRate(), 0);
+    
+    // Preparing the synth to play the processed data
+    synth.prepareToPlay(audioProcessor.getSampleRate(), ort_outputs);
+}
+ */
+
 
 void WavetableSynthAudioProcessorEditor::paintIfNoFileLoaded(juce::Graphics& g, const juce::Rectangle<int>& thumbnailBounds)
 {
@@ -203,23 +241,34 @@ void WavetableSynthAudioProcessorEditor::paintIfNoFileLoaded(juce::Graphics& g, 
 }
 
 void WavetableSynthAudioProcessorEditor::paintIfFileLoaded
- (juce::Graphics& g, const juce::Rectangle<int>& thumbnailBounds)
+ (juce::Graphics& g, const juce::Rectangle<int>& thumbnailBounds, juce::AudioThumbnail& thumbnail, juce::Colour color)
 {
     g.setColour(juce::Colours::white);
     g.fillRect(thumbnailBounds);
+    g.setColour(color);
 
-    g.setColour(juce::Colours::blue);
-
-    inputThumbnail.drawChannels(g,
+    thumbnail.drawChannels(g,
         thumbnailBounds,
         0.0,
-        inputThumbnail.getTotalLength(),
+        thumbnail.getTotalLength(),
         1.0f);
     
-    outputThumbnail.drawChannels(g,
-        thumbnailBounds,
-        0.0,
-        outputThumbnail.getTotalLength(),
-        1.0f);
+    // Draw a black border around the thumbnailBounds
+    g.setColour(juce::Colours::grey);
+    g.drawRect(thumbnailBounds, 1.5); // 1.5 is the line thickness
 }
 //==============================================================================
+
+std::vector<float> WavetableSynthAudioProcessorEditor::generateSineWaveTable()
+{
+    constexpr auto WAVETABLE_LENGTH = 600;
+    const auto PI = std::atanf(1.f) * 4;
+    std::vector<float> sineWaveTable = std::vector<float>(WAVETABLE_LENGTH);
+
+    for (auto i = 0; i < WAVETABLE_LENGTH; ++i)
+    {
+        sineWaveTable[i] = std::sinf(2 * PI * static_cast<float>(i) / WAVETABLE_LENGTH);
+    }
+
+    return sineWaveTable;
+}

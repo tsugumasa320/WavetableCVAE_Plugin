@@ -5,6 +5,8 @@
               pluginCharacteristicsValue="pluginIsSynth,pluginProducesMidiOut,pluginWantsMidiIn"
               maxBinaryFileSize="20971520">
   <MAINGROUP id="GksYSh" name="WavetableSynth">
+    <GROUP id="{70E50448-7B60-5309-8282-43B0528CF00A}" name="label"/>
+    <GROUP id="{DE30C585-AFCA-D758-D36C-ADF7BF5B2499}" name="wavetable"/>
     <GROUP id="{2AAF0CFF-622B-FE19-D5CD-F399C885286D}" name="Source"/>
     <FILE id="juX4fx" name="PluginEditor.cpp" compile="1" resource="0"
           file="Source/PluginEditor.cpp"/>
@@ -23,6 +25,7 @@
           file="Source/WavetableSynth.h"/>
     <FILE id="IoKR9R" name="OnnxModel.cpp" compile="1" resource="0" file="Source/OnnxModel.cpp"/>
     <FILE id="iavEoL" name="OnnxModel.h" compile="0" resource="0" file="Source/OnnxModel.h"/>
+    <FILE id="dNIagL" name="background.png" compile="0" resource="1" file="../../../../Movies/ScreenRec/background.png"/>
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>
   <EXPORTFORMATS>

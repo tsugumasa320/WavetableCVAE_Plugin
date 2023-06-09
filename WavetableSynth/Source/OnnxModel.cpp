@@ -10,7 +10,7 @@ OnnxModel::~OnnxModel()
 
 }
 
-void OnnxModel::setup(File modelPath) // ONNXの初期設定.後でデバッガで詳細を確認
+void OnnxModel::setup(File modelPath) // ONNXの初期設定
 {
     // ONNXの環境オブジェクトを生成．ログレベルを設定
     env = Ort::Env(Ort::Env(ORT_LOGGING_LEVEL_WARNING, "Default"));
@@ -18,7 +18,6 @@ void OnnxModel::setup(File modelPath) // ONNXの初期設定.後でデバッガ�
     session = Ort::Session(env, modelPath.getFullPathName().toRawUTF8() , Ort::SessionOptions{nullptr});
     
     auto type_info = session.GetInputTypeInfo(0);
-    // auto tensor_info = type_info.GetTensorTypeAndShapeInfo();
 
     // モデルの入力ノード数を取得
     const size_t num_input_nodes = session.GetInputCount();
@@ -34,8 +33,6 @@ void OnnxModel::setup(File modelPath) // ONNXの初期設定.後でデバッガ�
         // print input node types
         auto type_info = session.GetInputTypeInfo(i);
         auto tensor_info = type_info.GetTensorTypeAndShapeInfo();
-        // ONNXTensorElementDataType type = tensor_info.GetElementType();
-        // print input shapes/dims
         input_node_dims = tensor_info.GetShape();
     }
 
@@ -48,8 +45,9 @@ void OnnxModel::setup(File modelPath) // ONNXの初期設定.後でデバッガ�
     }
 }
 
-void OnnxModel::process(AudioBuffer<float>& buffer) // 推論部分
+std::vector<float> OnnxModel::process(std::vector<float> x, std::vector<float> label, int WAVETABLE_SIZE) // 推論部分
 {
+    /*
     bool isStereo = (buffer.getNumChannels()>=2)? true:false;
     
     // convert to mono if stereo
@@ -58,20 +56,39 @@ void OnnxModel::process(AudioBuffer<float>& buffer) // 推論部分
         // add the right (1) to the left (0)
         buffer.addFrom(0, 0, buffer, 1, 0, buffer.getNumSamples());
     }
-    /*
-     参考にできそう：https://github.com/WuYiming6526/HARD/blob/146ee18fa72fc40b80c179ae105ddf53e4ad73c1/Source/ONNXInferenceThread.cpp#L59
-     
+    */
+    DBG("OnnxModel::process");
+         
     auto memory_info = Ort::MemoryInfo::CreateCpu(OrtArenaAllocator, OrtMemTypeDefault);
-    // send 2 blocks for inference!!
-    auto input_tensor = Ort::Value::CreateTensor<float>(memory_info,
-                                                        buffer,
-                                                        600,
-                                                        input_node_dims.data(),
-                                                        input_node_dims.size());
+
+    std::vector<int64_t> input_node_dims1 = {1, 1, WAVETABLE_SIZE};
+    std::vector<int64_t> input_node_dims2 = {1, static_cast<int>(label.size())};
+
+    std::vector<Ort::Value> ort_inputs;
+    ort_inputs.emplace_back(Ort::Value::CreateTensor<float>(memory_info,
+                                                            x.data(),
+                                                            x.size(),
+                                                            input_node_dims1.data(),
+                                                            input_node_dims1.size()));
+    ort_inputs.emplace_back(Ort::Value::CreateTensor<float>(memory_info,
+                                                            label.data(),
+                                                            label.size(),
+                                                            input_node_dims2.data(),
+                                                            input_node_dims2.size()));
+    Ort::RunOptions run_options;
+    auto output_tensors = session.Run(run_options,
+                                      input_node_names.data(),
+                                      ort_inputs.data(),
+                                      2,
+                                      output_node_names.data(),
+                                      output_node_names.size());
     
-    auto output_tensors =
-    session.Run(Ort::RunOptions{nullptr}, input_node_names.data(), &buffer, 1, output_node_names.data(), 1);
-    
-    float* floatarr = output_tensors.front().GetTensorMutableData<float>();
-     */
+    //float* floatarr = output_tensors.front().GetTensorMutableData<float>();
+    float* floatarr =output_tensors[2].GetTensorMutableData<float>();
+    std::vector<float> fetchedData(WAVETABLE_SIZE);
+    for (int i = 0; i < WAVETABLE_SIZE; ++i)
+    {
+        fetchedData[i] = (floatarr[i]);
+    }
+    return fetchedData;
 }

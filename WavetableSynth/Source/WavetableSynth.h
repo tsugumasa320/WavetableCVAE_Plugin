@@ -22,4 +22,3 @@ private:
     std::vector<WavetableOscillator> oscillators;
     int count;
 };
-

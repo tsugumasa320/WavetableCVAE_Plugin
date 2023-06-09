@@ -11,7 +11,7 @@ public:
     ~OnnxModel();
     
     void setup(File modelPath);
-    void process(AudioBuffer<float>& buffer);
+    std::vector<float> process(std::vector<float> x, std::vector<float> label, int WAVETABLE_SIZE);
     
 private:
     Ort::Env env;
@@ -23,4 +23,5 @@ private:
     std::vector<const char*> output_node_names;
     Ort::AllocatorWithDefaultOptions allocator;
     std::vector<int64_t>input_node_dims;
+    
 };

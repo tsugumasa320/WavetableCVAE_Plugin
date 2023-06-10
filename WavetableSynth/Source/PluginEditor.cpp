@@ -61,7 +61,7 @@ WavetableSynthAudioProcessorEditor::WavetableSynthAudioProcessorEditor (Wavetabl
     label = {b, w, r};
     
     std::vector<float> sineWaveTable = generateSineWaveTable();
-    synth.prepareToPlay(audioProcessor.getSampleRate(), sineWaveTable);
+    synth.prepareToPlay(audioProcessor.getSampleRate());
     //==============================================================================
     // Init of ONNX settings
     auto bundle = juce::File::getSpecialLocation (juce::File::currentExecutableFile).getParentDirectory().getParentDirectory();
@@ -69,6 +69,9 @@ WavetableSynthAudioProcessorEditor::WavetableSynthAudioProcessorEditor (Wavetabl
     auto model_file = bundle.getChildFile ("Resources/model/wavetable_cvae.onnx");
     onnxModel.setup(model_file);
     //==============================================================================
+    
+    WavetableSynthAudioProcessorEditor::inference();
+    repaint();
 
 }
 
@@ -113,10 +116,7 @@ void WavetableSynthAudioProcessorEditor::sliderValueChanged (juce::Slider* slide
     b = brightSlider.getValue();
     w = warmSlider.getValue();
     r = richSlider.getValue();
-    
-    if (inputWavetable.empty()){
-        inputWavetable = generateSineWaveTable();
-    }
+    label = {b, w, r};
 
     WavetableSynthAudioProcessorEditor::inference();
     repaint();
@@ -184,10 +184,16 @@ void WavetableSynthAudioProcessorEditor::openButtonClicked()
 
 void WavetableSynthAudioProcessorEditor::inference()
 {
+    
+    if (inputWavetable.empty())
+    {
+        inputWavetable = generateSineWaveTable();
+    }
     // Processing the data through the ONNX model
     outputWavetable = onnxModel.process(inputWavetable, label, WAVETABLE_SIZE);
     // Preparing the synth to play the processed data
-    synth.prepareToPlay(audioProcessor.getSampleRate(), outputWavetable);
+    synth.setWaveTable(outputWavetable);
+    synth.prepareToPlay(audioProcessor.getSampleRate());
 }
 
 void WavetableSynthAudioProcessorEditor::drawWaveform(juce::Graphics& g, const std::vector<float>& data, juce::Rectangle<float> bounds, juce::Colour colour)

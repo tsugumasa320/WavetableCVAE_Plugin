@@ -8,7 +8,7 @@
     <key>CFBundleIconFile</key>
     <string></string>
     <key>CFBundleIdentifier</key>
-    <string>com.yourcompany.WavetableSynth</string>
+    <string>com.TsugumasaYutani.WavetableSynth</string>
     <key>CFBundleName</key>
     <string>WavetableSynth</string>
     <key>CFBundleDisplayName</key>
@@ -22,7 +22,7 @@
     <key>CFBundleVersion</key>
     <string>1.0.0</string>
     <key>NSHumanReadableCopyright</key>
-    <string></string>
+    <string>Tsugumasa Yutani</string>
     <key>NSHighResolutionCapable</key>
     <true/>
   </dict>

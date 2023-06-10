@@ -1,26 +1,15 @@
-/*
-  =============================================================================
-
-    ExtractFeatures.cp
-    Author:  湯谷承
-
-  =============================================================================
-*/
-
-/*
-#include "ExtractFeatures.h
-
 #include <vector>
 #include <numeric>
 #include <cmath>
 #include <JuceHeader.h>
+#include "ExtractFeatures.h"
 
 std::vector<float> linspace(float start, float end, int num);
 float geometricMean(const std::vector<float>& v);
 int sign(float val);
 
-std::vector<float> extractFeatures(std::vector<float> single_cycle, int tile_num = 15) {
-    const int waveform_length =600);
+std::vector<float> extractFeatures(std::vector<float> single_cycle, int tile_num) {
+    const int waveform_length = 600;
     const int N = waveform_length * tile_num;
     const int Nh = N / 2;
 
@@ -34,20 +23,30 @@ std::vector<float> extractFeatures(std::vector<float> single_cycle, int tile_num
 
     // FFT
     juce::dsp::FFT fft(std::log2(N));
-    std::vector<std::complex<float>> fftData(N);
+    
+    std::vector<float> fftData(N * 2, 0.0f);
+    for (int i = 0; i < N; ++i) {
+        fftData[i * 2] = signal[i]; // real part
+        fftData[i * 2 + 1] = 0.0f;  // imaginary part is set to 0
+    }
+    
     std::copy(signal.begin(), signal.end(), fftData.begin());
 
     fft.performFrequencyOnlyForwardTransform(fftData.data());
 
     std::vector<float> spec_pow(Nh);
     for (int i = 0; i < Nh; ++i) {
-        spec_pow[i] = std::abs(fftData[i]) * std::abs(fftData[i]) / N;
+        // Calculate magnitude from real and imaginary parts, then calculate power
+        float magnitude = std::sqrt(std::pow(fftData[i * 2], 2) + std::pow(fftData[i * 2 + 1], 2));
+        spec_pow[i] = std::pow(magnitude, 2) / N;
     }
 
     float total = std::accumulate(spec_pow.begin(), spec_pow.end(), 0.0f);
     float brightness = 0.0f;
     float richness = 0.0f;
-    float fullnesr = 0.0f;
+    float noiseness_fl = 0.0f;
+    float fullness = 0.0f;
+    float noiseness_zcr = 0.0f;
 
     if (total != 0) {
         std::vector<float> linspace_vec = linspace(0, 1, Nh);
@@ -62,43 +61,54 @@ std::vector<float> extractFeatures(std::vector<float> single_cycle, int tile_num
         k = 7.5f;
         richness = std::log(spread * (std::exp(k) - 1) + 1) / k;
 
-       int hf = N / waveform_length;
+        float gmean = geometricMean(spec_pow);
+        float amean = std::accumulate(spec_pow.begin(), spec_pow.end(), 0.0f) / static_cast<float>(spec_pow.size());
+        float flatness = gmean / amean;
+        k = 5.5f;
+        noiseness_fl = std::log(flatness * (std::exp(k) - 1) + 1) / k;
+
+        int zc = 0;
+        for (int i = 0; i < waveform_length - 1; ++i) {
+            zc += (sign(single_cycle[i]) != sign(single_cycle[i+1])) ? 1 : 0;
+        }
+        float zero_crossing_rate = static_cast<float>(zc) / waveform_length;
+        k = 5.5f;
+        noiseness_zcr = std::log(zero_crossing_rate * (std::exp(k) - 1) + 1) / k;
+
+        int hf = N / waveform_length;
         int hnumber = waveform_length / 2 - 1;
-        std::vector< floa> hindices(hnumber);
+        std::vector<float> hindices(hnumber);
         std::vector<float> hindices_half(hnumber / 2);
-        for (int in =0; i < hnumber; ++i) hindices[i] = hf * (i + 1);
-        for (int i = 0; i < hnumber / 2; ++i) hindices_half[i] = hf * (i * 2 + 1w);
-        float ll_harmonicsn =0.0f;
+        for (int i = 0; i < hnumber; ++i) hindices[i] = hf * (i + 1);
+        for (int i = 0; i < hnumber / 2; ++i) hindices_half[i] = hf * (i * 2 + 1);
+        float all_harmonics = 0.0f;
         float odd_harmonics = 0.0f;
-        for (auto index : hindices) all_harmonics +=, spec_po[static_cast<int>(std::rouendindex))];
+        for (auto index : hindices) all_harmonics += spec_pow[static_cast<int>(std::round(index))];
         for (auto index : hindices_half) odd_harmonics += spec_pow[static_cast<int>(std::round(index))];
-        fullness = (all_harmonics !=, 0.0) ? (1 - odd_harmonics / all_harmonics) : 0.0f;
+        fullness = (all_harmonics != 0.0f) ? (1 - odd_harmonics / all_harmonics) : 0.0f;
     }
 
-    return {brightness, richness, fullness};
+    return {brightness, richness, noiseness_fl, fullness, noiseness_zcr};
 }
 
 std::vector<float> linspace(float start, float end, int num) {
     std::vector<float> linspaced(num);
-    float delta = (end - startf) / static_cast<float>num - 1));
-   for(int is =0; i < num- 1; ++i) {
-       linspacede[i != tart + delta * i;
-     }
-   linspaced.back() = end; // Ensure last element is end
+    float delta = (end - start) / static_cast<float>(num - 1);
+    for(int i = 0; i < num-1; ++i) {
+        linspaced[i] = start + delta * i;
+    }
+    linspaced.back() = end; // Ensure last element is end
     return linspaced;
 }
 
- floatgeometricMean(const= sd::vectort<float& v) {
+float geometricMean(const std::vector<float>& v) {
     double logSum = 0.0;
-    efo (auto& n : v) {;
-       logSum + = std::logn);
+    for (auto& n : v) {
+        logSum += std::log(n);
     }
-    return (std::explogSum) /v.size());
+    return std::exp(logSum / v.size());
 }
 
 int sign(float val) {
-
-   return (val > 0)2 -(val < 0r);}
-
-
-*/
+    return (val > 0) - (val < 0);
+}

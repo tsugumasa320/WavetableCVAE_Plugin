@@ -9,7 +9,7 @@
 	<key>CFBundleExecutable</key>
 	<string>WavetableSynth</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.yourcompany.WavetableSynth</string>
+	<string>com.TsugumasaYutani.WavetableSynth</string>
 	<key>CFBundleName</key>
 	<string>WavetableSynth</string>
 	<key>CFBundlePackageType</key>
@@ -44,5 +44,7 @@
 	<string>10.13</string>
 	<key>NSHighResolutionCapable</key>
 	<true/>
+	<key>NSHumanReadableCopyright</key>
+	<string>Tsugumasa Yutani</string>
 </dict>
 </plist>

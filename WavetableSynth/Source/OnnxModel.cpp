@@ -47,16 +47,7 @@ void OnnxModel::setup(File modelPath) // ONNXの初期設定
 
 std::vector<float> OnnxModel::process(std::vector<float> x, std::vector<float> label, int WAVETABLE_SIZE) // 推論部分
 {
-    /*
-    bool isStereo = (buffer.getNumChannels()>=2)? true:false;
-    
-    // convert to mono if stereo
-    if (isStereo)
-    {
-        // add the right (1) to the left (0)
-        buffer.addFrom(0, 0, buffer, 1, 0, buffer.getNumSamples());
-    }
-    */
+
     DBG("OnnxModel::process");
          
     auto memory_info = Ort::MemoryInfo::CreateCpu(OrtArenaAllocator, OrtMemTypeDefault);

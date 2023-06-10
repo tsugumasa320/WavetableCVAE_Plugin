@@ -5,28 +5,23 @@
     Author:  湯谷承
 
   =============================================================================
-*
+*/
+#include <juce_dsp/juce_dsp.h>
 
 #pragma onc
 
-std::vector<float> linspace(float start, float end, int num) {
-    std::vector<float> linspaced(num);
-    float delta = (end - start) / static_cast<float>(num - 1);
-    for(int i = 0; i < num-1; ++i) {
-        linspaced[i] = start + delta * i;
-    }
-    linspaced.back() = end; // Ensure last element is end
-    return linspaced;
-}
+#ifndef WAVETABLE_FEATURES_H
+#define WAVETABLE_FEATURES_H
 
-float geometricMean(const std::vector<float>& v) {
-    double logSum = 0.0;
-    for (auto& n : v) {
-        logSum += std::log(n);
-    }
-    return std::exp(logSum / v.size());
-}
+#include <vector>
+#include <complex>
+#include <JuceHeader.h>
 
-int sign(float val) {
-    return (val > 0) - (val < 0);
-}
+std::vector<float> linspace(float start, float end, int num);
+float geometricMean(const std::vector<float>& v);
+int sign(float val);
+
+std::vector<float> extractFeatures(std::vector<float> single_cycle, int tile_num = 15);
+
+#endif  // WAVETABLE_FEATURES_H
+

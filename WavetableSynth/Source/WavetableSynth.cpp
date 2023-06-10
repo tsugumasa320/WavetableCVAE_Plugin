@@ -1,68 +1,71 @@
 #include "WavetableSynth.h"
 
-std::vector<float> WavetableSynth::generateSineWaveTable()
+void WavetableSynth::initializeOscillators()
 {
-    constexpr auto WAVETABLE_LENGTH = 600;
-    const auto PI = std::atanf(1.f) * 4;
-    std::vector<float> sineWaveTable = std::vector<float>(WAVETABLE_LENGTH);
-
-    for (auto i = 0; i < WAVETABLE_LENGTH; ++i)
+    if (oscillatorsMutex.try_lock())
     {
-        sineWaveTable[i] = std::sinf(2 * PI * static_cast<float>(i) / WAVETABLE_LENGTH);
-    }
-
-    return sineWaveTable;
-}
-
-void WavetableSynth::initializeOscillators(std::vector<float> waveTable)
-{
-    DBG("initOSC");
-    constexpr auto OSCILLATOR_COUNT = 128;
-    oscillators.clear();
-
-    for (auto i = 0; i < OSCILLATOR_COUNT; ++i)
-    {
-        oscillators.emplace_back(waveTable, sampleRate);
+        DBG("initOSC");
+        constexpr auto OSCILLATOR_COUNT = 128;
+        oscillators.clear();
+        
+        for (auto i = 0; i < OSCILLATOR_COUNT; ++i)
+        {
+            oscillators.emplace_back(waveTable, sampleRate);
+        }
+        // Unlock the mutex
+        oscillatorsMutex.unlock();
     }
 }
 
 // TODO:あとで整理する
 void WavetableSynth::prepareToPlay(double sampleRate)
 {
-    DBG("set sine wavetable");
-    DBG("samplerate" << sampleRate);
-
     this->sampleRate = sampleRate;
-    auto waveTable = generateSineWaveTable();
-    initializeOscillators(waveTable);
-}
-
-void WavetableSynth::prepareToPlay(double sampleRate, std::vector<float> waveTable)
-{
-    DBG("set new wavetable");
-    DBG("samplerate" << sampleRate);
-    this->sampleRate = sampleRate;
-    // auto waveTable = generateSineWaveTable();
-    initializeOscillators(waveTable);
 }
 
 void WavetableSynth::processBlock(juce::AudioBuffer<float>& buffer, 
                                   juce::MidiBuffer& midiMessages)
 // PluginProcessorからのエントリーポイント
 {
+    //DBG("WavetableSynth::processBlock");
     auto currentSample = 0;
+
+    checkWaveTableChanged();
+    oscillatorsMutex.lock();
 
     for (const auto midiMetadata : midiMessages)
     {
         const auto message = midiMetadata.getMessage();
         const auto messagePosition = static_cast<int>(message.getTimeStamp());
-
-        render(buffer, currentSample, messagePosition);
+        // midiMessageがあればここでbufferにデータを代入
+        render(buffer, currentSample, messagePosition); //buffer, beginSample, endSample
         currentSample = messagePosition;
+        DBG("messagePosition: " << messagePosition);
         handleMidiEvent(message);
     }
+    oscillatorsMutex.unlock();
 
+    //DBG("buffer.getNumSamples(): " << buffer.getNumSamples());
+    //DBG("currentSample" << currentSample);
     render(buffer, currentSample, buffer.getNumSamples());
+}
+
+void WavetableSynth::setWaveTable(const std::vector<float>& newWaveTable)
+{
+    // Acquire the lock before updating the waveTable
+    const std::lock_guard<std::mutex> lock(waveTableMutex);
+    waveTable = newWaveTable;
+    waveTableChanged.store(true);
+}
+
+void WavetableSynth::checkWaveTableChanged()
+{
+    // Check if the waveTableChanged flag is true
+    if (waveTableChanged.load())
+    {
+        initializeOscillators();
+        waveTableChanged.store(false);  // Reset the flag to false
+    }
 }
 
 float WavetableSynth::midiNoteNumberToFrequency(const int midiNoteNumber)
@@ -77,6 +80,7 @@ void WavetableSynth::handleMidiEvent(const juce::MidiMessage& midiMessage)
 {
     if (midiMessage.isNoteOn())
     {
+        //initializeOscillators(); wavetableをglobalにセットしてから
         const auto oscillatorId = midiMessage.getNoteNumber();
         const auto frequency = midiNoteNumberToFrequency(oscillatorId);
         oscillators[oscillatorId].setFrequency(frequency);
@@ -101,7 +105,6 @@ void WavetableSynth::render(juce::AudioBuffer<float>& buffer, int beginSample, i
 {
     auto* firstChannel = buffer.getWritePointer(0);
     
-    
     for (auto& oscillator : oscillators)
     {
         if (oscillator.isPlaying())
@@ -109,6 +112,7 @@ void WavetableSynth::render(juce::AudioBuffer<float>& buffer, int beginSample, i
             for (auto sample = beginSample; sample < endSample; ++sample)
             {
                 firstChannel[sample] += oscillator.getSample();
+                //DBG("osc.isPlaying()");
             }
         }
     }

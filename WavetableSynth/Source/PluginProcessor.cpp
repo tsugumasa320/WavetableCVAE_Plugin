@@ -32,17 +32,17 @@ WavetableSynthAudioProcessor::WavetableSynthAudioProcessor() // コンストラ�
                                                         "Bright",  // name
                                                          0.0f,     // min
                                                          1.0f, // max
-                                                         0.5f),// default
+                                                         0.1f),// default
     std::make_unique<juce::AudioParameterFloat>(ParameterID{"warm",3},  // ID
                                                         "Warm",  // name
                                                          0.0f,     // min
                                                          1.0f, // max
-                                                         0.5f),// default
+                                                         0.0f),// default
     std::make_unique<juce::AudioParameterFloat>(ParameterID{"rich",4},  // ID
                                                         "Rich",  // name
                                                          0.0f,     // min
                                                          1.0f, // max
-                                                         0.5f),// default
+                                                         0.0f),// default
         })
 {
     //IDを指定してパラメータの紐づけです。
@@ -162,7 +162,7 @@ void WavetableSynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffe
 {
     juce::ScopedNoDenormals noDenormals;
 
-    
+    // DBG("processBlock");
     // Smoothing gain changes
     float currentGain = *gainParam;
 

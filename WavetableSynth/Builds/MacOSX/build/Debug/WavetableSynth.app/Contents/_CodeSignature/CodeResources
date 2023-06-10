@@ -22,11 +22,20 @@
 		</data>
 		<key>Resources/model/wavetable_cvae.onnx</key>
 		<data>
-		Z0AT0P4lQN9l30S8qRuGAz1VyAk=
+		xL0Y4IF+azIZTd9pgdmNQvaXkkY=
 		</data>
 	</dict>
 	<key>files2</key>
 	<dict>
+		<key>PlugIns/WavetableSynth.appex</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			cawYOeKigenWuHemhF7HxR4zGCE=
+			</data>
+			<key>requirement</key>
+			<string>cdhash H"71ac1839e2a281e9d6b877a6845ec7c51e331821"</string>
+		</dict>
 		<key>Resources/RecentFilesMenuTemplate.nib</key>
 		<dict>
 			<key>hash2</key>
@@ -64,7 +73,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			rTZZLrTGYRCak/KrniBgqj5pGi+pYBlGeOIrNFilS1U=
+			vdVas1SXWcSWRBMZdRPyBXKM+NYCACbccKZE06MTFNg=
 			</data>
 		</dict>
 	</dict>

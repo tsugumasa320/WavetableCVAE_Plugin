@@ -17,14 +17,13 @@ private:
     void render(juce::AudioBuffer<float>& buffer, int beginSample, int endSample);
     void initializeOscillators();
     
+    void checkWaveTableChanged();
     std::vector<float> waveTable;
+    std::atomic<bool> waveTableChanged{false};
+
     std::mutex waveTableMutex;
     std::mutex oscillatorsMutex;
 
-    std::atomic<bool> waveTableChanged{false};
-    void checkWaveTableChanged();
-
     double sampleRate;
     std::vector<WavetableOscillator> oscillators;
-    int count;
 };

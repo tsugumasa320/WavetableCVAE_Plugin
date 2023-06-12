@@ -19,3 +19,9 @@ https://github.com/tsugumasa320/WavetableCVAE_Plugin/assets/35299183/9f48356d-62
 # License
 
 "WavetableCVAE_Plugin" is under [MIT license](https://en.wikipedia.org/wiki/MIT_License).
+
+# Related
+
+See [NeuralPluginTemplate](https://github.com/cpoohee/NeuralPluginTemplate) and [wavetable-synth](https://github.com/JanWilczek/wavetable-synth).
+
+I offer my great appreciation.

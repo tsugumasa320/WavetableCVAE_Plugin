@@ -17,14 +17,14 @@ void WavetableSynth::initializeOscillators()
     }
 }
 
-// TODO:あとで整理する
 void WavetableSynth::prepareToPlay(double sampleRate)
 {
     this->sampleRate = sampleRate;
 }
 
 void WavetableSynth::processBlock(juce::AudioBuffer<float>& buffer, 
-                                  juce::MidiBuffer& midiMessages)
+                                  juce::MidiBuffer& midiMessages,
+                                  int shiftPitchParam)
 // PluginProcessorからのエントリーポイント
 {
     //DBG("WavetableSynth::processBlock");
@@ -41,7 +41,7 @@ void WavetableSynth::processBlock(juce::AudioBuffer<float>& buffer,
         render(buffer, currentSample, messagePosition); //buffer, beginSample, endSample
         currentSample = messagePosition;
         DBG("messagePosition: " << messagePosition);
-        handleMidiEvent(message);
+        handleMidiEvent(message, shiftPitchParam);
     }
     oscillatorsMutex.unlock();
 
@@ -68,21 +68,20 @@ void WavetableSynth::checkWaveTableChanged()
     }
 }
 
-float WavetableSynth::midiNoteNumberToFrequency(const int midiNoteNumber)
+float WavetableSynth::midiNoteNumberToFrequency(const int midiNoteNumber, int shiftPitch=0)
 {
     constexpr auto A4_FREQUENCY = 440.f;
     constexpr auto A4_NOTE_NUMBER = 69.f;
     constexpr auto NOTES_IN_AN_OCTAVE = 12.f;
-    return A4_FREQUENCY * std::powf(2, (static_cast<float>(midiNoteNumber) - A4_NOTE_NUMBER) / NOTES_IN_AN_OCTAVE);
+    return A4_FREQUENCY * std::powf(2, (static_cast<float>(midiNoteNumber + shiftPitch) - A4_NOTE_NUMBER) / NOTES_IN_AN_OCTAVE);
 }
 
-void WavetableSynth::handleMidiEvent(const juce::MidiMessage& midiMessage)
+void WavetableSynth::handleMidiEvent(const juce::MidiMessage& midiMessage, int shiftPitchParam)
 {
     if (midiMessage.isNoteOn())
     {
-        //initializeOscillators(); wavetableをglobalにセットしてから
         const auto oscillatorId = midiMessage.getNoteNumber();
-        const auto frequency = midiNoteNumberToFrequency(oscillatorId);
+        const auto frequency = midiNoteNumberToFrequency(oscillatorId, shiftPitchParam);
         oscillators[oscillatorId].setFrequency(frequency);
         DBG("note_num: " << oscillatorId << " freq: " << frequency);
     }

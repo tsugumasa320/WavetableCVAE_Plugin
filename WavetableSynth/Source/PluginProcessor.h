@@ -20,6 +20,7 @@ public:
     float noteOnVel;
     juce::AudioProcessorValueTreeState parameters;
     std::atomic<float>* gainParam = nullptr;
+    std::atomic<float>* shiftPitchParam = nullptr;
     //std::atomic<float>* brightParam = nullptr;
     //std::atomic<float>* warmParam = nullptr;
     //std::atomic<float>* richParam = nullptr;

@@ -41,10 +41,10 @@
  #define JucePlugin_Enable_ARA             0
 #endif
 #ifndef  JucePlugin_Name
- #define JucePlugin_Name                   "WavetableSynth"
+ #define JucePlugin_Name                   "WavetableCVAE"
 #endif
 #ifndef  JucePlugin_Desc
- #define JucePlugin_Desc                   "WavetableSynth"
+ #define JucePlugin_Desc                   "WavetableCVAE"
 #endif
 #ifndef  JucePlugin_Manufacturer
  #define JucePlugin_Manufacturer           "Tsugumasa Yutani"
@@ -101,19 +101,19 @@
  #define JucePlugin_AUSubType              JucePlugin_PluginCode
 #endif
 #ifndef  JucePlugin_AUExportPrefix
- #define JucePlugin_AUExportPrefix         WavetableSynthAU
+ #define JucePlugin_AUExportPrefix         WavetableCVAEAU
 #endif
 #ifndef  JucePlugin_AUExportPrefixQuoted
- #define JucePlugin_AUExportPrefixQuoted   "WavetableSynthAU"
+ #define JucePlugin_AUExportPrefixQuoted   "WavetableCVAEAU"
 #endif
 #ifndef  JucePlugin_AUManufacturerCode
  #define JucePlugin_AUManufacturerCode     JucePlugin_ManufacturerCode
 #endif
 #ifndef  JucePlugin_CFBundleIdentifier
- #define JucePlugin_CFBundleIdentifier     com.TsugumasaYutani.WavetableSynth
+ #define JucePlugin_CFBundleIdentifier     com.TsugumasaYutani.WavetableCVAE
 #endif
 #ifndef  JucePlugin_AAXIdentifier
- #define JucePlugin_AAXIdentifier          com.TsugumasaYutani.WavetableSynth
+ #define JucePlugin_AAXIdentifier          com.TsugumasaYutani.WavetableCVAE
 #endif
 #ifndef  JucePlugin_AAXManufacturerCode
  #define JucePlugin_AAXManufacturerCode    JucePlugin_ManufacturerCode
@@ -137,7 +137,7 @@
  #define JucePlugin_IAASubType             JucePlugin_PluginCode
 #endif
 #ifndef  JucePlugin_IAAName
- #define JucePlugin_IAAName                "Tsugumasa Yutani: WavetableSynth"
+ #define JucePlugin_IAAName                "Tsugumasa Yutani: WavetableCVAE"
 #endif
 #ifndef  JucePlugin_VSTNumMidiInputs
  #define JucePlugin_VSTNumMidiInputs       16
@@ -152,10 +152,10 @@
  #define JucePlugin_ARATransformationFlags  0
 #endif
 #ifndef  JucePlugin_ARAFactoryID
- #define JucePlugin_ARAFactoryID           "com.TsugumasaYutani.WavetableSynth.factory"
+ #define JucePlugin_ARAFactoryID           "com.TsugumasaYutani.WavetableCVAE.factory"
 #endif
 #ifndef  JucePlugin_ARADocumentArchiveID
- #define JucePlugin_ARADocumentArchiveID   "com.TsugumasaYutani.WavetableSynth.aradocumentarchive.1.0.0"
+ #define JucePlugin_ARADocumentArchiveID   "com.TsugumasaYutani.WavetableCVAE.aradocumentarchive.1.0.0"
 #endif
 #ifndef  JucePlugin_ARACompatibleArchiveIDs
  #define JucePlugin_ARACompatibleArchiveIDs  ""

@@ -8,11 +8,11 @@
     <key>CFBundleIconFile</key>
     <string></string>
     <key>CFBundleIdentifier</key>
-    <string>com.TsugumasaYutani.WavetableSynth</string>
+    <string>com.TsugumasaYutani.WavetableCVAE</string>
     <key>CFBundleName</key>
-    <string>WavetableSynth</string>
+    <string>WavetableCVAE</string>
     <key>CFBundleDisplayName</key>
-    <string>WavetableSynth</string>
+    <string>WavetableCVAE</string>
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleSignature</key>

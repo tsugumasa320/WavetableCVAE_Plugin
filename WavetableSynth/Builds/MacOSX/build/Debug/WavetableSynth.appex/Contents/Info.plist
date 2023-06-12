@@ -5,13 +5,13 @@
 	<key>BuildMachineOSBuild</key>
 	<string>22E261</string>
 	<key>CFBundleDisplayName</key>
-	<string>WavetableSynth</string>
+	<string>WavetableCVAE</string>
 	<key>CFBundleExecutable</key>
 	<string>WavetableSynth</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.TsugumasaYutani.WavetableSynth.WavetableSynthAUv3</string>
+	<string>com.TsugumasaYutani.WavetableCVAE.WavetableCVAEAUv3</string>
 	<key>CFBundleName</key>
-	<string>WavetableSynth</string>
+	<string>WavetableCVAE</string>
 	<key>CFBundlePackageType</key>
 	<string>XPC!</string>
 	<key>CFBundleShortVersionString</key>
@@ -50,13 +50,13 @@
 			<array>
 				<dict>
 					<key>description</key>
-					<string>WavetableSynth</string>
+					<string>WavetableCVAE</string>
 					<key>factoryFunction</key>
-					<string>WavetableSynthAUFactoryAUv3</string>
+					<string>WavetableCVAEAUFactoryAUv3</string>
 					<key>manufacturer</key>
 					<string>Manu</string>
 					<key>name</key>
-					<string>Tsugumasa Yutani: WavetableSynth</string>
+					<string>Tsugumasa Yutani: WavetableCVAE</string>
 					<key>sandboxSafe</key>
 					<true/>
 					<key>subtype</key>
@@ -75,7 +75,7 @@
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.AudioUnit-UI</string>
 		<key>NSExtensionPrincipalClass</key>
-		<string>WavetableSynthAUFactoryAUv3</string>
+		<string>WavetableCVAEAUFactoryAUv3</string>
 	</dict>
 	<key>NSHighResolutionCapable</key>
 	<true/>

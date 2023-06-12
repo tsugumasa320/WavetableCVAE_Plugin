@@ -21,7 +21,7 @@ WavetableSynthAudioProcessor::WavetableSynthAudioProcessor() // コンストラ�
     #endif
     )
 #endif
-,parameters(*this, nullptr, juce::Identifier("APVTS"),
+,parameters(*this, nullptr, juce::Identifier("APVT"),
         {
     std::make_unique<juce::AudioParameterFloat>(ParameterID{"gain", 1},  // ID
                                                         "Gain",  // name
@@ -43,6 +43,11 @@ WavetableSynthAudioProcessor::WavetableSynthAudioProcessor() // コンストラ�
                                                          0.0f,     // min
                                                          1.0f, // max
                                                          0.0f),// default
+    std::make_unique<juce::AudioParameterInt>(ParameterID{"shiftPitch",5},  // ID
+                                                        "ShiftPitch",  // name
+                                                         -127.0f,     // min
+                                                         127.0f, // max
+                                                         0.0f),// default
         })
 {
     //IDを指定してパラメータの紐づけです。
@@ -50,6 +55,7 @@ WavetableSynthAudioProcessor::WavetableSynthAudioProcessor() // コンストラ�
     //brightParam = parameters.getRawParameterValue("bright");
     //warmParam = parameters.getRawParameterValue("warm");
     //richParam = parameters.getRawParameterValue("rich");
+    shiftPitchParam = parameters.getRawParameterValue("shiftPitch");
     
 }
 
@@ -165,6 +171,7 @@ void WavetableSynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffe
     // DBG("processBlock");
     // Smoothing gain changes
     float currentGain = *gainParam;
+    int shiftPitch = static_cast<int>(*shiftPitchParam);
 
     if (juce::approximatelyEqual (currentGain, previousGain))
     {
@@ -179,7 +186,7 @@ void WavetableSynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffe
     for (auto i = 0; i < buffer.getNumChannels(); ++i)
         buffer.clear(i, 0, buffer.getNumSamples());
 
-    synth.processBlock(buffer, midiMessages);
+    synth.processBlock(buffer, midiMessages, shiftPitch);
     buffer.applyGain(*gainParam);
 }
 

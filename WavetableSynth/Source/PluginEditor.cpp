@@ -103,7 +103,7 @@ void WavetableSynthAudioProcessorEditor::resized()
 {
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
-    openButton.setBounds(10, getHeight()-30, getWidth() - 20, 20);
+    //openButton.setBounds(10, getHeight()-30, getWidth() - 20, 20);
     //gainSlider.setBounds(10, 10, 200, 30);
     brightSlider.setBounds(305, 300, 20, 230);
     warmSlider.setBounds(390, 300, 20, 230);

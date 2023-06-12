@@ -8,7 +8,7 @@ The code for the deep learning part is [here](https://github.com/tsugumasa320/Wa
 
 # DEMO
 
-https://github.com/tsugumasa320/WavetableCVAE_Plugin/assets/35299183/9f48356d-6214-4f72-800f-d23408722a89
+https://github.com/tsugumasa320/WavetableCVAE_Plugin/assets/35299183/c4e58ad2-b9e9-4b86-98d4-adffbd694e58
 
 # How to install
 

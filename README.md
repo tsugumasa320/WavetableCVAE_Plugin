@@ -4,6 +4,8 @@ WavetableCVAE" is an attempt to provide intuitive timbre control by generating w
 We provide VST and AU and an app file that runs standalone on a Mac.
 - Tested on MacOS with arm64 architecture CPU, with ableton Live and Reaper.
 
+The code for the deep learning part is [here](https://github.com/tsugumasa320/WavetableCVAE)
+
 # DEMO
 
 https://github.com/tsugumasa320/WavetableCVAE_Plugin/assets/35299183/9f48356d-6214-4f72-800f-d23408722a89

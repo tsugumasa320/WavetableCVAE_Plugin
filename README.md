@@ -24,7 +24,7 @@ https://github.com/tsugumasa320/WavetableCVAE_Plugin/assets/35299183/c4e58ad2-b9
 
 See [NeuralPluginTemplate](https://github.com/cpoohee/NeuralPluginTemplate) and [wavetable-synth](https://github.com/JanWilczek/wavetable-synth).
 
-I offer my great appreciation.
+A big thank you to them.
 
 # Acknowledgment
 This research was supported by the 12th Cybozu Labo Youth.

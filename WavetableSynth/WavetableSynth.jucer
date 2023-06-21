@@ -4,7 +4,7 @@
               addUsingNamespaceToJuceHeader="1" displaySplashScreen="1" jucerFormatVersion="1"
               pluginCharacteristicsValue="pluginIsSynth,pluginProducesMidiOut,pluginWantsMidiIn"
               companyName="Tsugumasa Yutani" companyCopyright="Tsugumasa Yutani"
-              pluginFormats="buildAU,buildAUv3,buildStandalone,buildVST3" cppLanguageStandard="17">
+              pluginFormats="buildAU,buildStandalone,buildVST3" cppLanguageStandard="17">
   <MAINGROUP id="GksYSh" name="WavetableCVAE">
     <FILE id="SyqnEN" name="ExtractFeatures.h" compile="0" resource="0"
           file="Source/ExtractFeatures.h"/>
@@ -30,7 +30,7 @@
           file="Source/WavetableSynth.h"/>
     <FILE id="IoKR9R" name="OnnxModel.cpp" compile="1" resource="0" file="Source/OnnxModel.cpp"/>
     <FILE id="iavEoL" name="OnnxModel.h" compile="0" resource="0" file="Source/OnnxModel.h"/>
-    <FILE id="dNIagL" name="background.png" compile="0" resource="1" file="../../../../Movies/ScreenRec/background.png"/>
+    <FILE id="iy4Jsf" name="background.png" compile="0" resource="1" file="Source/background.png"/>
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>
   <EXPORTFORMATS>

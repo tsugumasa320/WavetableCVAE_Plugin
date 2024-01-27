@@ -2,9 +2,11 @@
 
 WavetableCVAE" is an attempt to provide intuitive timbre control by generating wavetables conditionally with CVAE.
 We provide VST and AU and an app file that runs standalone on a Mac.
-- Tested on MacOS with arm64 architecture CPU, with ableton Live and Reaper.
+- Tested on MacOS with arm64 architecture CPU, with Ableton Live and Reaper.
 
 The code for the deep learning part is [here](https://github.com/tsugumasa320/WavetableCVAE)
+Japanese paper [here](https://ipsj.ixsq.nii.ac.jp/ej/?action=pages_view_main&active_action=repository_view_main_item_detail&item_id=226379&item_no=1&page_id=13&block_id=8) 
+English) paper in preparation.
 
 # DEMO
 

@@ -14,7 +14,7 @@ English paper in preparation.
 
 https://github.com/tsugumasa320/WavetableCVAE_Plugin/assets/35299183/c4e58ad2-b9e9-4b86-98d4-adffbd694e58
 
-# How to install
+# How to install (Currently only Mac users are supported.)
 
 1. Download plugin file (VST3 or AU) from [here](https://github.com/tsugumasa320/WavetableCVAE_Plugin/releases).
 2. Unzip the zip file and copy WavetableSynth.component or WavetableSynth.VST3 to your AU or VST3 plugin installation path.

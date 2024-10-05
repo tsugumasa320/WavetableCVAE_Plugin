@@ -40,8 +40,8 @@
         <CONFIGURATION isDebug="1" name="Debug" targetName="WavetableSynth" headerPath="../../onnxruntime/onnxruntime-osx-universal2-1.14.1/include"
                        libraryPath="../../onnxruntime/onnxruntime-osx-universal2-1.14.1/lib"
                        customXcodeFlags="LD_RUNPATH_SEARCH_PATHS=@loader_path/../Resources/lib"/>
-        <CONFIGURATION isDebug="0" name="Release" targetName="WavetableSynth" headerPath="/Users/tsugumasayutani/Documents/onnxruntime/onnxruntime-osx-universal2-1.14.1/include"
-                       libraryPath="/Users/tsugumasayutani/Documents/onnxruntime/onnxruntime-osx-universal2-1.14.1/lib"
+        <CONFIGURATION isDebug="0" name="Release" targetName="WavetableSynth" headerPath="../../onnxruntime/onnxruntime-osx-universal2-1.14.1/include"
+                       libraryPath="../../onnxruntime/onnxruntime-osx-universal2-1.14.1/lib"
                        customXcodeFlags="LD_RUNPATH_SEARCH_PATHS=@loader_path/../Resources/lib"/>
       </CONFIGURATIONS>
       <MODULEPATHS>

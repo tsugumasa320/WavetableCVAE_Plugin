@@ -8,7 +8,7 @@ The code for the deep learning part is [here](https://github.com/tsugumasa320/Wa
 
 Japanese paper [here](https://ipsj.ixsq.nii.ac.jp/ej/?action=pages_view_main&active_action=repository_view_main_item_detail&item_id=226379&item_no=1&page_id=13&block_id=8) 
 
-English paper in preparation.
+English paper [here](https://arxiv.org/abs/2410.18628)
 
 # DEMO
 
